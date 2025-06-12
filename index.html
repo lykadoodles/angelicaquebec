@@ -7,7 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -32,10 +33,6 @@
              font-weight: 600;
              color: #1f2937; /* Tailwind gray-800 */
         }
-        .header-name {
-            font-family: 'Playfair Display', serif;
-            color: #1e3a8a; /* A darker blue */
-        }
     </style>
 </head>
 <body class="p-4 sm:p-8">
@@ -43,18 +40,26 @@
 
         <!-- Header -->
         <header class="text-center mb-12">
-            <h1 class="text-5xl sm:text-6xl font-bold header-name tracking-tight">Angelica Lei C. Quebec</h1>
+            <h1 class="text-5xl sm:text-6xl font-bold text-gray-900 tracking-tight">Angelica Lei C. Quebec</h1>
             <div class="w-full border-t-2 border-blue-400 my-4 max-w-2xl mx-auto"></div>
-            <div class="text-center text-gray-600 text-sm space-y-1">
-                <p>Cavite, Philippines</p>
-                <div>
-                    <a href="mailto:angelicaquebec@gmail.com" class="hover:text-blue-600 transition-colors">angelicaquebec@gmail.com</a>
-                    <span class="mx-2 text-gray-300">|</span>
-                    <span>09985892929</span>
-                </div>
-                <a href="https://www.linkedin.com/in/angelica-lei-quebec/" target="_blank" class="text-blue-600 hover:underline">LinkedIn Profile</a>
+            <div class="mt-4 flex justify-center items-center flex-wrap gap-x-6 gap-y-2 text-gray-600 text-sm">
+                 <span class="flex items-center">
+                    <i class="fas fa-map-marker-alt mr-2"></i>Cavite, Philippines
+                </span>
+                <span class="hidden sm:inline text-gray-300">|</span>
+                <a href="mailto:angelicaquebec@gmail.com" class="flex items-center hover:text-blue-600 transition-colors">
+                    <i class="fas fa-envelope mr-2"></i>angelicaquebec@gmail.com
+                </a>
+                <span class="hidden sm:inline text-gray-300">|</span>
+                <span class="flex items-center">
+                    <i class="fas fa-phone-alt mr-2"></i>09985892929
+                </span>
+                 <span class="hidden sm:inline text-gray-300">|</span>
+                <a href="https://www.linkedin.com/in/angelica-lei-quebec/" target="_blank" class="flex items-center hover:text-blue-600 transition-colors">
+                    <i class="fab fa-linkedin mr-2"></i>LinkedIn
+                </a>
             </div>
-             <h2 class="text-lg text-gray-700 font-semibold mt-6">Senior Full-Stack Developer | Technical Product Manager</h2>
+             <h2 class="text-lg text-gray-700 font-semibold mt-8">Senior Full-Stack Developer | Technical Product Manager</h2>
         </header>
 
         <!-- Professional Summary -->
@@ -90,7 +95,7 @@
                         <span class="text-sm font-medium text-gray-500">Feb 2024 - Present</span>
                     </div>
                     <p class="font-semibold company-name">Brokerpedia (Sydney, Australia)</p>
-                    <ul class="list-disc list-outside ml-5 mt-2 space-y-1 text-gray-700">
+                    <ul class="list-disc list-outside ml-5 mt-2 space-y-2 text-gray-700">
                         <li>Owned the Technical Product Manager role, architecting new SaaS features from concept to deployment.</li>
                         <li>Evolved a tool into a customer-facing AI module ("Gather Intel"), reducing user analytical processes from two hours to seconds.</li>
                         <li>Led the development and launch of BrokerTV, an interactive training module that increased user engagement and adoption.</li>
@@ -104,7 +109,7 @@
                         <span class="text-sm font-medium text-gray-500">Sep 2019 - Jan 2024</span>
                     </div>
                     <p class="font-semibold company-name">Thinxtra (Sydney, Australia)</p>
-                    <ul class="list-disc list-outside ml-5 mt-2 space-y-1 text-gray-700">
+                    <ul class="list-disc list-outside ml-5 mt-2 space-y-2 text-gray-700">
                         <li>Managed post-launch product success, driving a 1-star to 5-star improvement in customer experience.</li>
                         <li>Developed product documentation and a self-service knowledge base, reducing support ticket volume by 20%.</li>
                         <li>Engineered database schemas and developed a CEO Dashboard to provide leadership with actionable insights.</li>
@@ -117,7 +122,7 @@
                         <span class="text-sm font-medium text-gray-500">Oct 2017 - Sep 2019</span>
                     </div>
                     <p class="font-semibold company-name">Accenture (Manila, Philippines)</p>
-                     <ul class="list-disc list-outside ml-5 mt-2 space-y-1 text-gray-700">
+                     <ul class="list-disc list-outside ml-5 mt-2 space-y-2 text-gray-700">
                         <li>Spearheaded deployment of an IoT Connected Services platform, resulting in a 60% reduction in service calls during the pilot.</li>
                         <li>Architected and developed a serverless cloud architecture using Azure Functions, Event Hubs, and CosmosDB.</li>
                         <li>Improved code quality to over 85% coverage by establishing best practices and conducting rigorous code reviews.</li>
@@ -130,7 +135,7 @@
                         <span class="text-sm font-medium text-gray-500">Jun 2013 - Jul 2017</span>
                     </div>
                     <p class="font-semibold company-name">CTSI Logistics (Parañaque, Philippines)</p>
-                     <ul class="list-disc list-outside ml-5 mt-2 space-y-1 text-gray-700">
+                     <ul class="list-disc list-outside ml-5 mt-2 space-y-2 text-gray-700">
                         <li>Played a pivotal role in creating a supply chain management platform from the ground up using .NET MVC.</li>
                         <li>Designed and developed an intelligent Logistics Planning module to automate key decision-making processes.</li>
                         <li>Developed and deployed hybrid mobile apps, replacing costly legacy systems and generating substantial savings.</li>
@@ -150,7 +155,7 @@
                 </div>
                 <div>
                     <h3 class="section-title">CERTIFICATIONS</h3>
-                    <ul class="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                    <ul class="list-disc list-outside ml-5 space-y-2 text-gray-700">
                         <li>Microsoft Certified: Azure Fundamentals (AZ-900)</li>
                         <li>HIPAA Certified Professional (HIPAAP)</li>
                     </ul>
