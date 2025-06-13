@@ -33,15 +33,37 @@
              font-weight: 600;
              color: #1f2937; /* Tailwind gray-800 */
         }
+        /* Print-specific styles */
+        @media print {
+            body {
+                background-color: #fff;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .max-w-5xl {
+                box-shadow: none;
+                border: none;
+            }
+            .fa-envelope, .fa-phone-alt, .fa-map-marker-alt, .fab-linkedin, .fa-external-link-alt {
+                display: none;
+             }
+             a {
+                text-decoration: none;
+             }
+            .project-card {
+                border-color: #e5e7eb !important;
+                page-break-inside: avoid;
+            }
+        }
     </style>
 </head>
 <body class="p-4 sm:p-8">
     <div class="max-w-5xl mx-auto bg-white p-8 sm:p-12 rounded-lg shadow-md border border-gray-200">
 
         <!-- Header -->
-        <header class="text-center mb-12">
-            <h1 class="text-5xl sm:text-6xl font-bold text-gray-900 tracking-tight">Angelica Lei C. Quebec</h1>
-            <div class="w-full border-t-2 border-blue-400 my-4 max-w-2xl mx-auto"></div>
+        <header class="text-center mb-16">
+            <h1 class="text-4xl font-bold text-gray-900 tracking-tight">Angelica Lei C. Quebec</h1>
+            <div class="w-full border-t-2 border-blue-400 my-5 max-w-2xl mx-auto"></div>
             <div class="mt-4 flex justify-center items-center flex-wrap gap-x-6 gap-y-2 text-gray-600 text-sm">
                  <span class="flex items-center">
                     <i class="fas fa-map-marker-alt mr-2"></i>Cavite, Philippines
@@ -59,7 +81,7 @@
                     <i class="fab fa-linkedin mr-2"></i>LinkedIn
                 </a>
             </div>
-             <h2 class="text-lg text-gray-700 font-semibold mt-8">Senior Full-Stack Developer | Technical Product Manager</h2>
+             <h2 class="text-lg text-gray-700 font-semibold mt-10">Senior Full-Stack Developer | Technical Product Manager</h2>
         </header>
 
         <!-- Professional Summary -->
@@ -94,7 +116,9 @@
                         <h4 class="text-lg font-bold job-title">Software Engineering Manager & AI Transformation Lead</h4>
                         <span class="text-sm font-medium text-gray-500">Feb 2024 - Present</span>
                     </div>
-                    <p class="font-semibold company-name">Brokerpedia (Sydney, Australia)</p>
+                    <a href="http://brokerpedia.com.au" target="_blank" class="font-semibold company-name inline-flex items-center hover:text-blue-600 hover:underline">
+                        Brokerpedia (Sydney, Australia) <i class="fas fa-external-link-alt ml-2 text-xs"></i>
+                    </a>
                     <ul class="list-disc list-outside ml-5 mt-2 space-y-2 text-gray-700">
                         <li>Owned the Technical Product Manager role, architecting new SaaS features from concept to deployment.</li>
                         <li>Evolved a tool into a customer-facing AI module ("Gather Intel"), reducing user analytical processes from two hours to seconds.</li>
@@ -108,7 +132,9 @@
                         <h4 class="text-lg font-bold job-title">IoT Support Manager</h4>
                         <span class="text-sm font-medium text-gray-500">Sep 2019 - Jan 2024</span>
                     </div>
-                    <p class="font-semibold company-name">Thinxtra (Sydney, Australia)</p>
+                    <a href="http://thinxtra.com" target="_blank" class="font-semibold company-name inline-flex items-center hover:text-blue-600 hover:underline">
+                        Thinxtra (Sydney, Australia) <i class="fas fa-external-link-alt ml-2 text-xs"></i>
+                    </a>
                     <ul class="list-disc list-outside ml-5 mt-2 space-y-2 text-gray-700">
                         <li>Managed post-launch product success, driving a 1-star to 5-star improvement in customer experience.</li>
                         <li>Developed product documentation and a self-service knowledge base, reducing support ticket volume by 20%.</li>
@@ -121,7 +147,9 @@
                         <h4 class="text-lg font-bold job-title">Senior Software Engineer</h4>
                         <span class="text-sm font-medium text-gray-500">Oct 2017 - Sep 2019</span>
                     </div>
-                    <p class="font-semibold company-name">Accenture (Manila, Philippines)</p>
+                     <a href="https://www.avanade.com/en/insights/clients/bdr-thermea" target="_blank" class="font-semibold company-name inline-flex items-center hover:text-blue-600 hover:underline">
+                        Accenture (Manila, Philippines) <i class="fas fa-external-link-alt ml-2 text-xs"></i>
+                    </a>
                      <ul class="list-disc list-outside ml-5 mt-2 space-y-2 text-gray-700">
                         <li>Spearheaded deployment of an IoT Connected Services platform, resulting in a 60% reduction in service calls during the pilot.</li>
                         <li>Architected and developed a serverless cloud architecture using Azure Functions, Event Hubs, and CosmosDB.</li>
@@ -134,12 +162,53 @@
                         <h4 class="text-lg font-bold job-title">Full Stack Software Engineer</h4>
                         <span class="text-sm font-medium text-gray-500">Jun 2013 - Jul 2017</span>
                     </div>
-                    <p class="font-semibold company-name">CTSI Logistics (Parañaque, Philippines)</p>
+                    <a href="https://www.slideshare.net/slideshow/ctsi-trax-sales-proposal-ppt/71845605#1" target="_blank" class="font-semibold company-name inline-flex items-center hover:text-blue-600 hover:underline">
+                        CTSI Logistics (Parañaque, Philippines) <i class="fas fa-external-link-alt ml-2 text-xs"></i>
+                    </a>
                      <ul class="list-disc list-outside ml-5 mt-2 space-y-2 text-gray-700">
                         <li>Played a pivotal role in creating a supply chain management platform from the ground up using .NET MVC.</li>
                         <li>Designed and developed an intelligent Logistics Planning module to automate key decision-making processes.</li>
                         <li>Developed and deployed hybrid mobile apps, replacing costly legacy systems and generating substantial savings.</li>
                     </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Showcase -->
+        <section class="mt-8">
+            <h3 class="section-title">PROJECT SHOWCASE</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Project Card 1 -->
+                <div class="project-card border border-gray-200 rounded-lg p-6 flex flex-col justify-between hover:shadow-lg transition-shadow">
+                    <div>
+                        <h4 class="font-bold text-lg text-gray-800">AI-Powered Financial Services Platform</h4>
+                        <p class="text-sm text-gray-600 mt-2">Led the development of AI-driven features, including the "Gather Intel" module, to drastically reduce analytical processing time for financial brokers and enhance platform intelligence.</p>
+                    </div>
+                    <a href="http://brokerpedia.com.au" target="_blank" class="text-sm font-semibold text-blue-600 mt-4 inline-block hover:underline">View Project <i class="fas fa-arrow-right ml-1"></i></a>
+                </div>
+                <!-- Project Card 2 -->
+                <div class="project-card border border-gray-200 rounded-lg p-6 flex flex-col justify-between hover:shadow-lg transition-shadow">
+                    <div>
+                        <h4 class="font-bold text-lg text-gray-800">IoT-as-a-Service Platform Enhancement</h4>
+                        <p class="text-sm text-gray-600 mt-2">Managed post-launch product success for a leading IoT network operator, transforming customer experience and developing key resources to improve support scalability.</p>
+                    </div>
+                    <a href="http://thinxtra.com" target="_blank" class="text-sm font-semibold text-blue-600 mt-4 inline-block hover:underline">View Project <i class="fas fa-arrow-right ml-1"></i></a>
+                </div>
+                <!-- Project Card 3 -->
+                <div class="project-card border border-gray-200 rounded-lg p-6 flex flex-col justify-between hover:shadow-lg transition-shadow">
+                    <div>
+                        <h4 class="font-bold text-lg text-gray-800">Enterprise IoT Connected Services</h4>
+                        <p class="text-sm text-gray-600 mt-2">Spearheaded the deployment of a large-scale IoT platform on Microsoft Azure for BDR Thermea, architecting a serverless solution that resulted in a 60% reduction in service calls.</p>
+                    </div>
+                    <a href="https://www.avanade.com/en/insights/clients/bdr-thermea" target="_blank" class="text-sm font-semibold text-blue-600 mt-4 inline-block hover:underline">View Case Study <i class="fas fa-arrow-right ml-1"></i></a>
+                </div>
+                <!-- Project Card 4 -->
+                <div class="project-card border border-gray-200 rounded-lg p-6 flex flex-col justify-between hover:shadow-lg transition-shadow">
+                    <div>
+                        <h4 class="font-bold text-lg text-gray-800">Digital Transformation in Logistics</h4>
+                        <p class="text-sm text-gray-600 mt-2">Played a pivotal role in creating a comprehensive supply chain management platform, including an intelligent logistics planning module and hybrid mobile apps, to modernize operations.</p>
+                    </div>
+                    <a href="https://www.slideshare.net/slideshow/ctsi-trax-sales-proposal-ppt/71845605#1" target="_blank" class="text-sm font-semibold text-blue-600 mt-4 inline-block hover:underline">View Presentation <i class="fas fa-arrow-right ml-1"></i></a>
                 </div>
             </div>
         </section>
