@@ -43,15 +43,17 @@
                 box-shadow: none;
                 border: none;
             }
-            .fa-envelope, .fa-phone-alt, .fa-map-marker-alt, .fab-linkedin, .fab-github {
+            .fa-envelope, .fa-phone-alt, .fa-map-marker-alt, .fab-linkedin, .fab-github, .project-card i {
                 display: none;
              }
              a {
                 text-decoration: none;
              }
-            .accolade-quote {
+            .project-card, .accolade-quote {
                 border-color: #e5e7eb !important;
                 page-break-inside: avoid;
+            }
+            .accolade-quote {
                 border-left-color: #3b82f6 !important;
             }
         }
@@ -64,7 +66,7 @@
         <header class="text-center mb-16">
             <h1 class="text-4xl font-bold text-gray-900 tracking-tight">Angelica Lei C. Quebec</h1>
             <div class="w-full border-t-2 border-blue-600 my-5 max-w-2xl mx-auto"></div>
-             <h2 class="text-lg text-blue-700 font-semibold mt-8 leading-relaxed">Chief Technology Officer | Strategic Technology Leader | AI & IoT | Innovator & Inventor</h2>
+             <h2 class="text-lg text-blue-700 font-semibold mt-8 leading-relaxed">Strategic Technology Leader | AI & IoT | Innovator & Inventor</h2>
             <div class="mt-4 flex justify-center items-center flex-wrap gap-x-6 gap-y-2 text-gray-600 text-sm">
                  <span class="flex items-center">
                     <i class="fas fa-map-marker-alt mr-2"></i>Cavite, Philippines
@@ -88,7 +90,7 @@
         <section>
             <h3 class="section-title">EXECUTIVE SUMMARY</h3>
             <p class="text-gray-700 leading-relaxed">
-                A mature, resilient, and commercially-aware technology executive with over 15 years of experience leading technology strategy and execution. I bring a unique dual perspective as both a hands-on <b>innovator</b>, delivering tangible business value by applying technology to solve complex problems, and a proven <b>inventor</b>, creating novel systems and intellectual property. My expertise lies in aligning technology initiatives with key business objectives to build high-performing teams, drive operational excellence, and ensure market competitiveness.
+                A mature, resilient, and commercially-aware technology executive with over 15 years of experience leading technology strategy and execution. I bring a unique dual perspective as both a hands-on <strong class="font-semibold text-gray-800">innovator</strong>, delivering tangible business value by applying technology to solve complex problems, and a proven <strong class="font-semibold text-gray-800">inventor</strong>, creating novel systems and intellectual property. My expertise lies in aligning technology initiatives with key business objectives to build high-performing teams, drive operational excellence, and ensure market competitiveness.
             </p>
         </section>
         
@@ -149,6 +151,57 @@
             </div>
         </section>
 
+        <!-- Project Showcase -->
+        <section class="mt-8">
+            <h3 class="section-title">PROJECT SHOWCASE</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Project Card 1 -->
+                <div class="project-card border border-gray-200 rounded-lg p-6 flex flex-col justify-between hover:shadow-lg transition-shadow">
+                    <div>
+                        <h4 class="font-bold text-lg text-gray-800 flex items-center">
+                            <i class="fas fa-brain mr-3 text-blue-600"></i>
+                            <span>AI-Powered Financial Services Platform</span>
+                        </h4>
+                        <p class="text-sm text-gray-600 mt-2">Led the development of AI-driven features, including the "Gather Intel" module, to drastically reduce analytical processing time for financial brokers and enhance platform intelligence.</p>
+                    </div>
+                    <a href="http://brokerpedia.com.au" target="_blank" class="text-sm font-semibold text-blue-600 mt-4 inline-block hover:underline">View Project <i class="fas fa-arrow-right ml-1"></i></a>
+                </div>
+                <!-- Project Card 2 -->
+                <div class="project-card border border-gray-200 rounded-lg p-6 flex flex-col justify-between hover:shadow-lg transition-shadow">
+                    <div>
+                         <h4 class="font-bold text-lg text-gray-800 flex items-center">
+                            <i class="fas fa-broadcast-tower mr-3 text-blue-600"></i>
+                            <span>IoT-as-a-Service Platform Enhancement</span>
+                        </h4>
+                        <p class="text-sm text-gray-600 mt-2">Managed post-launch product success for a leading IoT network operator, transforming customer experience and developing key resources to improve support scalability.</p>
+                    </div>
+                    <a href="https://thinxtra.com/blog/iot-case-studies/" target="_blank" class="text-sm font-semibold text-blue-600 mt-4 inline-block hover:underline">View Project <i class="fas fa-arrow-right ml-1"></i></a>
+                </div>
+                <!-- Project Card 3 -->
+                <div class="project-card border border-gray-200 rounded-lg p-6 flex flex-col justify-between hover:shadow-lg transition-shadow">
+                    <div>
+                        <h4 class="font-bold text-lg text-gray-800 flex items-center">
+                            <i class="fas fa-cloud-upload-alt mr-3 text-blue-600"></i>
+                            <span>Enterprise IoT Connected Services</span>
+                        </h4>
+                        <p class="text-sm text-gray-600 mt-2">Spearheaded the deployment of a large-scale IoT platform on Microsoft Azure for BDR Thermea, architecting a serverless solution that resulted in a 60% reduction in service calls.</p>
+                    </div>
+                    <a href="https://www.avanade.com/en/insights/clients/bdr-thermea" target="_blank" class="text-sm font-semibold text-blue-600 mt-4 inline-block hover:underline">View Case Study <i class="fas fa-arrow-right ml-1"></i></a>
+                </div>
+                <!-- Project Card 4 -->
+                <div class="project-card border border-gray-200 rounded-lg p-6 flex flex-col justify-between hover:shadow-lg transition-shadow">
+                    <div>
+                         <h4 class="font-bold text-lg text-gray-800 flex items-center">
+                            <i class="fas fa-truck mr-3 text-blue-600"></i>
+                            <span>Digital Transformation in Logistics</span>
+                        </h4>
+                        <p class="text-sm text-gray-600 mt-2">Played a pivotal role in creating a comprehensive supply chain management platform, including an intelligent logistics planning module and hybrid mobile apps, to modernize operations.</p>
+                    </div>
+                    <a href="https://www.slideshare.net/slideshow/ctsi-trax-sales-proposal-ppt/71845605#1" target="_blank" class="text-sm font-semibold text-blue-600 mt-4 inline-block hover:underline">View Presentation <i class="fas fa-arrow-right ml-1"></i></a>
+                </div>
+            </div>
+        </section>
+
         <!-- Professional Accolades -->
         <section class="mt-8">
             <h3 class="section-title">PROFESSIONAL ACCOLADES</h3>
@@ -166,7 +219,7 @@
 
         <!-- Credentials & Innovation -->
         <section class="mt-8">
-             <h3 class="section-title">CREDENTIALS & INVENTION</h3>
+             <h3 class="section-title">INVENTION & CREDENTIALS</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
                 <div>
                     <h4 class="font-bold text-lg text-gray-800 mb-4">Education</h4>
