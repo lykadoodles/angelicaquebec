@@ -35,27 +35,34 @@
         }
         @media print {
             body {
-                background-color: #fff;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
+                background-color: #fff !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
             .max-w-5xl {
-                box-shadow: none;
-                border: none;
+                box-shadow: none !important;
+                border: none !important;
             }
-            .fa-envelope, .fa-phone-alt, .fa-map-marker-alt, .fab-linkedin, .fab-github, .project-card i {
-                display: none;
-             }
-             a {
-                text-decoration: none;
-             }
-            .project-card, .accolade-quote {
-                border-color: #e5e7eb !important;
+            .project-showcase-grid {
+                display: grid !important;
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 2rem !important;
+            }
+            .project-card, .accolade-quote, .job-entry {
                 page-break-inside: avoid;
+            }
+            .text-blue-700, .text-blue-600 {
+                color: #1d4ed8 !important;
+            }
+            .border-blue-600 {
+                border-color: #2563eb !important;
             }
             .accolade-quote {
                 border-left-color: #3b82f6 !important;
             }
+             a {
+                text-decoration: none !important;
+             }
         }
     </style>
 </head>
@@ -154,7 +161,7 @@
         <!-- Project Showcase -->
         <section class="mt-8">
             <h3 class="section-title">PROJECT SHOWCASE</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="project-showcase-grid grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Project Card 1 -->
                 <div class="project-card border border-gray-200 rounded-lg p-6 flex flex-col justify-between hover:shadow-lg transition-shadow">
                     <div>
