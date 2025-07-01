@@ -27,6 +27,12 @@
              font-weight: 600;
              color: #1f2937;
         }
+        .accolade-quote {
+            border-left: 4px solid #3b82f6;
+            padding-left: 1rem;
+            font-style: italic;
+            color: #4b5563;
+        }
         @media print {
             body {
                 background-color: #fff;
@@ -43,6 +49,11 @@
              a {
                 text-decoration: none;
              }
+            .accolade-quote {
+                border-color: #e5e7eb !important;
+                page-break-inside: avoid;
+                border-left-color: #3b82f6 !important;
+            }
         }
     </style>
 </head>
@@ -138,31 +149,44 @@
             </div>
         </section>
 
-        <!-- Patents & Intellectual Property -->
+        <!-- Professional Accolades -->
         <section class="mt-8">
-            <h3 class="section-title">PATENTS & INTELLECTUAL PROPERTY</h3>
-            <div>
-                <h4 class="font-bold text-lg text-gray-800">System and Method for Secure Digital Twin Creation and Integrity Verification of Giving Envelopes</h4>
-                <p class="text-sm text-gray-500 mt-1">Patent Pending (Filed at IPOPHL, 2025) - Application No: 6GI06XA30A72025TE</p>
-                <p class="text-gray-700 mt-2 leading-relaxed">A secure digital giving system that creates a digital twin of physical giving envelopes, enabling identity-linked donation tracking and real-time acknowledgment through tap-to-give interactions (QR/NFC). Designed for online and offline environments, it ensures data integrity through cryptographic hash chaining and optional blockchain anchoring, supporting multi-campus deployment and compliance with international data privacy standards.</p>
+            <h3 class="section-title">PROFESSIONAL ACCOLADES</h3>
+            <div class="space-y-6">
+                <blockquote class="accolade-quote">
+                    <p>"Angelica possesses a unique talent for streamlining support processes. Her ability to dissect complex procedures and refine them into efficient workflows was truly impressive."</p>
+                    <footer class="mt-2 text-right text-sm font-semibold text-gray-800">- Adrian Tchordjallian, Solutions Engineering Manager</footer>
+                </blockquote>
+                 <blockquote class="accolade-quote">
+                    <p>"Every now and then someone stands out over the crowd and demonstrates exceptional service and communication... Congratulations you have one of them in Angelica Lei Quebec, I am so impressed with her efforts."</p>
+                    <footer class="mt-2 text-right text-sm font-semibold text-gray-800">- Mat Graham, Managing Director</footer>
+                </blockquote>
             </div>
         </section>
 
-        <!-- Education & Certifications -->
+        <!-- Credentials & Innovation -->
         <section class="mt-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+             <h3 class="section-title">CREDENTIALS & INNOVATION</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
                 <div>
-                    <h3 class="section-title">EDUCATION</h3>
-                    <p class="font-bold text-gray-800">Bachelor of Technology in Information Technology</p>
+                    <h4 class="font-bold text-lg text-gray-800 mb-4">Education</h4>
+                     <p class="font-bold text-gray-800">Bachelor of Technology in Information Technology</p>
                     <p class="text-gray-600">Technological University of the Philippines – Manila</p>
-                </div>
-                <div>
-                    <h3 class="section-title">CERTIFICATIONS</h3>
-                    <ul class="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                    <p class="text-sm text-gray-500 italic mt-2">Thesis: ParkKing: IoT Enabled Parking System with Valet Finder</p>
+                    <p class="text-sm text-gray-500 italic">Thesis Leader & Research Forum Awardee</p>
+                    
+                    <h4 class="font-bold text-lg text-gray-800 mt-6 mb-4">Certifications</h4>
+                     <ul class="list-disc list-outside ml-5 space-y-2 text-gray-700">
                         <li>Professional Scrum Master™ I (PSM I)</li>
                         <li>Microsoft Certified: Azure Fundamentals (AZ-900)</li>
                         <li>HIPAA Certified Professional (HIPAAP)</li>
                     </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg text-gray-800 mb-4">Patents & Intellectual Property</h4>
+                    <h5 class="font-semibold text-gray-800">System and Method for Secure Digital Twin Creation and Integrity Verification of Giving Envelopes</h5>
+                    <p class="text-sm text-gray-500 mt-1">Patent Pending (Filed at IPOPHL, 2025)</p>
+                    <p class="text-gray-700 mt-2 text-sm leading-relaxed">A secure digital giving system that creates a digital twin of physical giving envelopes, enabling identity-linked donation tracking and real-time acknowledgment through tap-to-give interactions (QR/NFC). Ensures data integrity through cryptographic hash chaining and supports multi-campus deployment.</p>
                 </div>
             </div>
         </section>
