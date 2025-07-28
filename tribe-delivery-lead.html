@@ -43,12 +43,12 @@
                 box-shadow: none !important;
                 border: none !important;
             }
-            .credentials-grid, .project-showcase-grid {
+            .credentials-grid {
                 display: grid !important;
                 grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
                 gap: 3rem !important;
             }
-            .accolade-quote, .job-entry, .project-card {
+            .accolade-quote, .job-entry {
                 page-break-inside: avoid;
             }
             .text-blue-700, .text-blue-600 {
@@ -106,7 +106,7 @@
             <h3 class="section-title">CORE COMPETENCIES</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 text-gray-700">
                 <div><strong class="skills-category">Service Delivery & Vendor Governance:</strong> SLA & KPI Management, Vendor Performance Management, Service Transition, Operational Readiness, Escalation Management, Service Reviews.</div>
-                <div><strong class="skills-category">IT Operations & Process Improvement:</strong> Incident, Problem & Change Management (ITIL Trained), Continuous Improvement, Service Health Monitoring, Risk & Compliance Management (HIPAA).</div>
+                <div><strong class="skills-category">IT Operations & Process Improvement:</strong> Incident, Problem & Change Management (ITIL Principles), Continuous Improvement, Service Health Monitoring, Risk & Compliance Management (HIPAA).</div>
                 <div><strong class="skills-category">Agile Delivery & Leadership:</strong> Agile Methodologies (Scrum, PSM I), Delivery Plan Governance, Stakeholder Management, Cross-functional Team Leadership, Status Reporting.</div>
                 <div><strong class="skills-category">Technical Foundation:</strong> Cloud Solutions (Azure), Enterprise Applications, Systems Integration, Data Analytics & BI, IT Infrastructure.</div>
             </div>
@@ -116,11 +116,22 @@
         <section class="mt-8">
             <h3 class="section-title">PROFESSIONAL EXPERIENCE</h3>
             <div class="space-y-8">
+                <!-- Current Job -->
+                 <div class="job-entry">
+                    <div class="flex justify-between items-baseline">
+                        <h4 class="text-lg font-bold">IoT Support Consultant (Part-Time)</h4>
+                        <span class="text-sm font-medium text-gray-500">Jul 2025 - Present</span>
+                    </div>
+                    <p class="font-semibold company-name">Digital Matter</p>
+                    <ul class="list-disc list-outside ml-5 mt-2 space-y-2 text-gray-700">
+                        <li>Advising on the strategic optimization of technical support processes to enhance service delivery and improve customer satisfaction for a global leader in IoT asset tracking.</li>
+                    </ul>
+                </div>
                 <!-- Job 1 -->
                 <div class="job-entry">
                     <div class="flex justify-between items-baseline">
                         <h4 class="text-lg font-bold">Software Engineering Manager & AI Transformation Lead</h4>
-                        <span class="text-sm font-medium text-gray-500">Feb 2024 - Present</span>
+                        <span class="text-sm font-medium text-gray-500">Feb 2024 - Jul 2025</span>
                     </div>
                     <p class="font-semibold company-name">Brokerpedia (Financial Services)</p>
                     <ul class="list-disc list-outside ml-5 mt-2 space-y-2 text-gray-700">
