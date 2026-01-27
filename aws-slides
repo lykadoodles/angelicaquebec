@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Session 1: Data-Driven Orientation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        aws: {
+                            dark: '#232f3e',
+                            light: '#37495d',
+                            orange: '#ff9900',
+                            blue: '#007eb9',
+                            bg: '#f2f3f3'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            background-color: #000;
+        }
+        
+        /* Slide Transition Logic */
+        .slide {
+            display: none;
+            height: 100vh;
+            width: 100vw;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+            background-color: #f2f3f3;
+        }
+
+        .slide.active {
+            display: flex;
+            opacity: 1;
+            z-index: 10;
+        }
+
+        /* Layout Structure */
+        .slide-container {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+        }
+
+        .header {
+            background: #232f3e;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid #ff9900;
+        }
+
+        .content {
+            padding: 2rem 4rem;
+            overflow-y: auto;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .footer {
+            background: white;
+            padding: 0.5rem 2rem;
+            font-size: 0.8rem;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #ddd;
+        }
+
+        /* Data Visualization Components */
+        .bar-chart-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .bar-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .bar-label {
+            width: 150px;
+            text-align: right;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .bar-track {
+            flex-grow: 1;
+            background: #e5e7eb;
+            height: 24px;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007eb9, #232f3e);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+            width: 0; /* Animated via JS */
+            transition: width 1.5s ease-out;
+        }
+
+        /* Latency Pulse Animation */
+        .ping-dot {
+            width: 20px;
+            height: 20px;
+            background-color: #ff9900;
+            border-radius: 50%;
+            position: relative;
+        }
+        .ping-dot::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #ff9900;
+            border-radius: 50%;
+            animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+        @keyframes ping {
+            75%, 100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* Controls */
+        .nav-btn {
+            position: fixed;
+            bottom: 20px;
+            z-index: 50;
+            background: #232f3e;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+        .nav-btn:hover { transform: scale(1.1); background: #ff9900; }
+        #prevBtn { right: 70px; }
+        #nextBtn { right: 20px; }
+
+        /* Typography & citations */
+        .citation {
+            font-size: 0.75rem;
+            color: #666;
+            font-style: italic;
+            margin-top: 0.5rem;
+            border-left: 2px solid #ff9900;
+            padding-left: 0.5rem;
+        }
+        
+        h2 { font-size: 2.5rem; font-weight: 800; color: #232f3e; margin-bottom: 1rem; }
+        h3 { font-size: 1.5rem; font-weight: 600; color: #007eb9; margin-bottom: 0.5rem; margin-top: 1.5rem; }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-top: 4px solid #ff9900;
+        }
+        .stat-number { font-size: 2.5rem; font-weight: 800; color: #232f3e; }
+        .stat-label { color: #666; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    </style>
+</head>
+<body>
+
+    <!-- Controls -->
+    <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">&#8592;</button>
+    <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">&#8594;</button>
+
+    <!-- Slide 1: Intro -->
+    <div class="slide active" id="slide-1">
+        <div class="slide-container">
+            <div class="header">
+                <span class="font-bold tracking-wider">AWS SESSION 1</span>
+                <span class="text-sm bg-aws-orange px-2 py-1 rounded text-black font-bold">UPDATED 2025</span>
+            </div>
+            <div class="content flex flex-col justify-center items-center text-center">
+                <div class="mb-8">
+                    <svg width="100" height="100" viewBox="0 0 100 100" class="mx-auto">
+                        <path d="M20 50 Q 50 80 80 50" stroke="#ff9900" stroke-width="8" fill="none" />
+                        <text x="50" y="40" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="24" fill="#232f3e">AWS</text>
+                    </svg>
+                </div>
+                <h1 class="text-6xl font-bold text-aws-dark mb-4">Cloud Orientation & Fundamentals</h1>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    Navigating the shift from "Server Rooms" to "Serverless" in the Philippine Market.
+                </p>
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-left max-w-4xl w-full">
+                    <div class="stat-card">
+                        <div class="text-aws-blue font-bold mb-2">The Context</div>
+                        <p class="text-sm">Why the DICT "Cloud First" policy changed everything for local careers.</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="text-aws-blue font-bold mb-2">The Money</div>
+                        <p class="text-sm">Real salary data for AWS certified professionals in Metro Manila.</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="text-aws-blue font-bold mb-2">The Tech</div>
+                        <p class="text-sm">Understanding the Manila Local Zone vs. Singapore Region.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <span>Confidential - Training Materials</span>
+                <span>1/8</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 2: The "Cloud First" Policy -->
+    <div class="slide" id="slide-2">
+        <div class="slide-container">
+            <div class="header">
+                <span>MARKET CONTEXT</span>
+            </div>
+            <div class="content">
+                <h2>Why are we here? The Legal Mandate.</h2>
+                <div class="flex flex-col md:flex-row gap-10 mt-8">
+                    <div class="md:w-1/2">
+                        <p class="text-lg mb-4">It is not just a trend; it is government policy. In 2017, the Department of Information and Communications Technology (DICT) issued <strong>Department Circular 002</strong>.</p>
+                        <div class="bg-white p-6 rounded-lg border-l-8 border-aws-blue shadow-sm">
+                            <h3 class="!mt-0 !mb-2 text-xl">"Cloud First Policy"</h3>
+                            <p class="italic text-gray-600">"Gov't agencies shall prefer cloud computing solutions... to reduce costs and increase efficiency."</p>
+                        </div>
+                        <p class="mt-6">This triggered a massive migration in:</p>
+                        <ul class="list-disc ml-6 space-y-2 mt-2">
+                            <li><strong>GovTech:</strong> SSS, Pag-IBIG digital portals.</li>
+                            <li><strong>FinTech:</strong> GCash, Maya (scaling on AWS).</li>
+                            <li><strong>Enterprise:</strong> Jollibee Group, PAL.</li>
+                        </ul>
+                    </div>
+                    <div class="md:w-1/2 flex flex-col justify-center gap-6">
+                         <div class="stat-card">
+                            <div class="stat-number">USD 2.8B</div>
+                            <div class="stat-label">Projected PH Public Cloud Market (2025)</div>
+                            <div class="citation">Source: IDC / Twimbit Market Analysis</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">85%</div>
+                            <div class="stat-label">PH Enterprises increasing Cloud Budget</div>
+                            <div class="citation">Source: Alibaba Cloud Asia Survey 2023</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <span>The Landscape</span>
+                <span>2/8</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: The Salary Data -->
+    <div class="slide" id="slide-3">
+        <div class="slide-container">
+            <div class="header">
+                <span>CAREER PATHWAYS</span>
+            </div>
+            <div class="content">
+                <h2>The ROI on Learning AWS</h2>
+                <p>Cloud roles consistently out-earn traditional IT Support roles. Here is the data for Metro Manila.</p>
+                
+                <div class="bar-chart-container" id="salaryChart">
+                    <!-- Javascript will populate widths to animate -->
+                    <div class="bar-row">
+                        <div class="bar-label">Trad. IT Support</div>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 0%" data-width="25%">₱30k</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bar-row">
+                        <div class="bar-label">Jr. Cloud Assoc.</div>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 0%" data-width="45%">₱50k</div>
+                        </div>
+                    </div>
+
+                    <div class="bar-row">
+                        <div class="bar-label">Cloud Engineer</div>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 0%" data-width="70%">₱85k</div>
+                        </div>
+                    </div>
+
+                    <div class="bar-row">
+                        <div class="bar-label">DevOps Engineer</div>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 0%" data-width="85%">₱110k+</div>
+                        </div>
+                    </div>
+
+                    <div class="bar-row">
+                        <div class="bar-label">Solutions Architect</div>
+                        <div class="bar-track">
+                            <div class="bar-fill bg-aws-orange" style="width: 0%" data-width="95%">₱150k+</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 text-sm bg-blue-50 p-4 rounded text-blue-800">
+                    <strong>Insight:</strong> The jump from "Support" to "Architect" is not just about years of experience—it is about certification and owning the <em>Shared Responsibility</em>.
+                    <div class="citation mt-2 border-l-blue-300">Data aggregated from JobStreet PH & Glassdoor Reports (2023-2024) for Metro Manila / BGC hubs.</div>
+                </div>
+            </div>
+            <div class="footer">
+                <span>Career ROI</span>
+                <span>3/8</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Global Infra & Manila Local Zone -->
+    <div class="slide" id="slide-4">
+        <div class="slide-container">
+            <div class="header">
+                <span>INFRASTRUCTURE</span>
+            </div>
+            <div class="content">
+                <h2>Global Scale, Local Speed</h2>
+                <p class="mb-8">AWS isn't just "in the sky." It is physical hardware. For the Philippines, this geography dictates performance.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Map Concept -->
+                    <div class="relative bg-white h-64 rounded-lg shadow border border-gray-200 overflow-hidden">
+                        <div class="absolute top-10 right-10 flex flex-col items-center">
+                            <span class="text-xs font-bold text-gray-500">SINGAPORE (ap-southeast-1)</span>
+                            <div class="w-8 h-8 rounded-full bg-aws-blue border-4 border-blue-200"></div>
+                            <span class="text-xs text-blue-600 font-bold mt-1">Main Region</span>
+                        </div>
+
+                        <div class="absolute bottom-10 left-10 flex flex-col items-center">
+                            <span class="text-xs font-bold text-gray-500">MANILA LOCAL ZONE</span>
+                            <div class="ping-dot"></div>
+                            <span class="text-xs text-aws-orange font-bold mt-1">Edge Compute</span>
+                        </div>
+                        
+                        <!-- Connection Line -->
+                        <svg class="absolute top-0 left-0 w-full h-full pointer-events-none">
+                            <line x1="20%" y1="80%" x2="80%" y2="20%" style="stroke:#ccc;stroke-width:2;stroke-dasharray:5,5" />
+                            <text x="50%" y="50%" fill="#666" font-size="12" bg="white">~30ms Latency</text>
+                        </svg>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="p-4 bg-white border-l-4 border-aws-blue shadow-sm">
+                            <h4 class="font-bold">The Singapore Region (ap-southeast-1)</h4>
+                            <p class="text-sm">Where 90% of PH workloads live. It has 3 Availability Zones (Data Centers). It is massive, secure, and resilient.</p>
+                        </div>
+                        <div class="p-4 bg-white border-l-4 border-aws-orange shadow-sm">
+                            <h4 class="font-bold">The Manila Local Zone</h4>
+                            <p class="text-sm">Launched to handle <strong>single-digit millisecond latency</strong>. Essential for real-time gaming, video streaming, and financial trading desks in Makati/BGC.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <span>Infrastructure</span>
+                <span>4/8</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Shared Responsibility (Visualized) -->
+    <div class="slide" id="slide-5">
+        <div class="slide-container">
+            <div class="header">
+                <span>SECURITY</span>
+            </div>
+            <div class="content">
+                <h2>The Security "Prenup"</h2>
+                <p>The Shared Responsibility Model is the contract between you and AWS. If you get hacked because of a weak password, that is on you. If the data center floods, that is on AWS.</p>
+
+                <div class="mt-8 flex flex-col border border-gray-400 rounded-lg shadow-lg overflow-hidden max-w-3xl mx-auto">
+                    <!-- Customer -->
+                    <div class="bg-blue-100 p-6 relative">
+                        <div class="absolute top-2 right-2 text-4xl opacity-20">👤</div>
+                        <h3 class="!mt-0 text-center uppercase tracking-widest text-sm font-bold text-aws-dark">Customer Responsibility</h3>
+                        <p class="text-center text-xs text-gray-500 mb-4">(Security IN the cloud)</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm font-semibold text-aws-light">
+                            <div class="bg-white p-2 rounded text-center shadow-sm">Your Data</div>
+                            <div class="bg-white p-2 rounded text-center shadow-sm">Encryption</div>
+                            <div class="bg-white p-2 rounded text-center shadow-sm">OS Patching (EC2)</div>
+                            <div class="bg-white p-2 rounded text-center shadow-sm">Firewall Config</div>
+                        </div>
+                    </div>
+
+                    <!-- Line -->
+                    <div class="h-1 bg-red-500 w-full relative">
+                        <span class="absolute top-[-10px] left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-2 rounded-full text-xs">THE LINE</span>
+                    </div>
+
+                    <!-- AWS -->
+                    <div class="bg-aws-dark p-6 relative">
+                        <div class="absolute bottom-2 right-2 text-4xl opacity-20">☁️</div>
+                        <h3 class="!mt-0 text-center uppercase tracking-widest text-sm font-bold text-white">AWS Responsibility</h3>
+                        <p class="text-center text-xs text-gray-400 mb-4">(Security OF the cloud)</p>
+                        <div class="grid grid-cols-3 gap-4 text-sm font-semibold text-gray-800">
+                            <div class="bg-aws-orange p-2 rounded text-center">Regions</div>
+                            <div class="bg-aws-orange p-2 rounded text-center">Availability Zones</div>
+                            <div class="bg-aws-orange p-2 rounded text-center">Edge Locations</div>
+                            <div class="bg-aws-orange p-2 rounded text-center">Hardware</div>
+                            <div class="bg-aws-orange p-2 rounded text-center">Software</div>
+                            <div class="bg-aws-orange p-2 rounded text-center">Networking</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <span>Shared Responsibility</span>
+                <span>5/8</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Account Safety (The Danger Zone) -->
+    <div class="slide" id="slide-6">
+        <div class="slide-container">
+            <div class="header">
+                <span>ACCOUNT SAFETY</span>
+            </div>
+            <div class="content">
+                <h2>Don't get Bankrupted</h2>
+                <p>Cloud is "Pay as you Go." If you leave the tap running, you pay for the water.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+                    <div class="bg-red-50 p-6 rounded border-l-4 border-red-500">
+                        <h3 class="!mt-0 text-red-700">The Horror Story</h3>
+                        <p class="italic text-gray-700">"A student in Quezon City uploaded his AWS Access Keys to a public GitHub repo by mistake. Bots found it in 5 minutes. They spun up 50 servers for crypto mining. He woke up to a $15,000 bill."</p>
+                    </div>
+
+                    <div class="bg-green-50 p-6 rounded border-l-4 border-green-500">
+                        <h3 class="!mt-0 text-green-700">The Protection</h3>
+                        <ul class="space-y-3 mt-2">
+                            <li class="flex items-center">
+                                <span class="bg-green-200 text-green-800 rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">1</span>
+                                <span><strong>MFA on Root:</strong> Non-negotiable.</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="bg-green-200 text-green-800 rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">2</span>
+                                <span><strong>Budgets:</strong> Set a budget of $1.00. Get emailed if you hit $0.80.</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="bg-green-200 text-green-800 rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">3</span>
+                                <span><strong>Git-Secrets:</strong> Use tools to scan code before pushing to GitHub.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <span>Account Safety</span>
+                <span>6/8</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: AWS Service Pillars -->
+    <div class="slide" id="slide-7">
+        <div class="slide-container">
+            <div class="header">
+                <span>SERVICE OVERVIEW</span>
+            </div>
+            <div class="content">
+                <h2>The Building Blocks</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                    <div class="p-4 border rounded hover:shadow-md transition text-center group">
+                        <div class="text-4xl group-hover:scale-110 transition">⚙️</div>
+                        <h4 class="font-bold mt-2">EC2</h4>
+                        <p class="text-xs text-gray-500">Virtual Servers</p>
+                    </div>
+                    <div class="p-4 border rounded hover:shadow-md transition text-center group">
+                        <div class="text-4xl group-hover:scale-110 transition">⚡</div>
+                        <h4 class="font-bold mt-2">Lambda</h4>
+                        <p class="text-xs text-gray-500">Serverless Code</p>
+                    </div>
+                    <div class="p-4 border rounded hover:shadow-md transition text-center group">
+                        <div class="text-4xl group-hover:scale-110 transition">🪣</div>
+                        <h4 class="font-bold mt-2">S3</h4>
+                        <p class="text-xs text-gray-500">Unlimited Storage</p>
+                    </div>
+                    <div class="p-4 border rounded hover:shadow-md transition text-center group">
+                        <div class="text-4xl group-hover:scale-110 transition">🛡️</div>
+                        <h4 class="font-bold mt-2">IAM</h4>
+                        <p class="text-xs text-gray-500">Identity & Access</p>
+                    </div>
+                </div>
+                <div class="mt-8 text-center text-gray-500">
+                    Next session we will actually launch an EC2 instance.
+                </div>
+            </div>
+            <div class="footer">
+                <span>Services</span>
+                <span>7/8</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: References -->
+    <div class="slide" id="slide-8">
+        <div class="slide-container">
+            <div class="header">
+                <span>RESOURCES</span>
+            </div>
+            <div class="content">
+                <h2>References & Further Reading</h2>
+                <div class="bg-white p-6 rounded shadow-sm">
+                    <ul class="space-y-4">
+                        <li class="pb-2 border-b">
+                            <strong>DICT Cloud First Policy (Dept Circular 002-2017)</strong><br>
+                            <span class="text-sm text-gray-500">Mandates cloud adoption for Philippine government agencies.</span>
+                        </li>
+                        <li class="pb-2 border-b">
+                            <strong>AWS Local Zones - Manila</strong><br>
+                            <span class="text-sm text-gray-500">Launched to provide single-digit millisecond latency to end-users in the Philippines.</span>
+                        </li>
+                        <li class="pb-2 border-b">
+                            <strong>JobStreet / Glassdoor Salary Reports 2024</strong><br>
+                            <span class="text-sm text-gray-500">Data analysis of "Cloud Engineer" and "Solutions Architect" roles in Metro Manila/BGC.</span>
+                        </li>
+                        <li>
+                            <strong>IDC Cloud Spending Guide</strong><br>
+                            <span class="text-sm text-gray-500">Forecasts on Public Cloud spending in ASEAN.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer">
+                <span>References</span>
+                <span>8/8</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 8;
+
+        function updateSlide() {
+            document.querySelectorAll('.slide').forEach(slide => slide.classList.remove('active'));
+            document.getElementById(`slide-${currentSlide}`).classList.add('active');
+
+            // Trigger animations if on Salary Slide
+            if(currentSlide === 3) {
+                setTimeout(() => {
+                    document.querySelectorAll('.bar-fill').forEach(bar => {
+                        bar.style.width = bar.getAttribute('data-width');
+                    });
+                }, 200);
+            } else {
+                // Reset bars when leaving slide 3 so animation plays again
+                document.querySelectorAll('.bar-fill').forEach(bar => {
+                    bar.style.width = '0%';
+                });
+            }
+
+            // Button States
+            document.getElementById('prevBtn').style.opacity = currentSlide === 1 ? '0.5' : '1';
+            document.getElementById('nextBtn').style.opacity = currentSlide === totalSlides ? '0.5' : '1';
+        }
+
+        function changeSlide(dir) {
+            const next = currentSlide + dir;
+            if (next >= 1 && next <= totalSlides) {
+                currentSlide = next;
+                updateSlide();
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') changeSlide(1);
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+        });
+
+        updateSlide();
+    </script>
+</body>
+</html>
