@@ -1,27 +1,310 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Angelica Lei C. Quebec - Resume</title>
-  <style>
-    :root { --text:#111827; --muted:#4b5563; --line:#e5e7eb; }
-    body { font-family: Arial, Helvetica, sans-serif; color: var(--text); margin: 0; background: #fff; }
-    .page { max-width: 940px; margin: 0 auto; padding: 28px 22px; }
-    header { border-bottom: 2px solid var(--line); padding-bottom: 14px; margin-bottom: 18px; }
-    h1 { font-size: 28px; margin: 0 0 6px 0; letter-spacing: 0.2px; }
-    .headline { font-size: 14px; color: var(--muted); margin: 0 0 10px 0; }
-    .meta { font-size: 13px; color: var(--muted); line-height: 1.55; }
-    .meta span { display: inline-block; margin-right: 10px; }
-    h2 { font-size: 16px; margin: 18px 0 8px; padding-top: 14px; border-top: 1px solid var(--line); letter-spacing: 0.2px; }
-    h3 { font-size: 14px; margin: 12px 0 2px; }
-    .roleline { font-size: 13px; color: var(--muted); margin: 0 0 8px; }
-    .tag { font-size: 12px; color: #111827; background: #f3f4f6; padding: 2px 8px; border-radius: 999px; display: inline-block; margin-left: 6px; }
-    ul { margin: 8px 0 0 18px; padding: 0; }
-    li { margin: 0 0 6px 0; line-height: 1.5; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .pillrow { font-size: 13px; color: var(--text); line-height: 1.65; }
-    .pillrow strong { color: var(--text); }
-    .muted { color: var(--muted); }
-    .foot { margin-top: 18px; font-size: 12px; color: var(--muted); }
-    @media (max-width:
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angelica Lei C. Quebec - Solutions Architect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a1a;
+            line-height: 1.5;
+            background-color: #f3f4f6;
+        }
+
+        .resume-paper {
+            background: white;
+            width: 100%;
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 3rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 { font-size: 2.25rem; font-weight: 700; letter-spacing: -0.025em; color: #111827; }
+        h2 { 
+            font-size: 1.1rem; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 0.05em; 
+            color: #1e40af; 
+            border-bottom: 2px solid #e5e7eb; 
+            padding-bottom: 0.25rem; 
+            margin-top: 1.75rem; 
+            margin-bottom: 0.75rem; 
+        }
+        h3 { font-size: 1.05rem; font-weight: 700; color: #374151; }
+        
+        .section-content { margin-bottom: 1.25rem; }
+        .bullet-list { list-style-type: disc; margin-left: 1.25rem; }
+        .bullet-list li { margin-bottom: 0.35rem; font-size: 0.925rem; text-align: justify; }
+        
+        .job-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.25rem; }
+        .job-date { font-size: 0.875rem; font-weight: 600; color: #6b7280; white-space: nowrap; }
+        .job-sub { font-style: italic; font-size: 0.95rem; color: #4b5563; margin-bottom: 0.5rem; display: block; }
+
+        .recognition-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        .recognition-card { border-left: 3px solid #e5e7eb; padding-left: 1rem; }
+        .quote-text { font-style: italic; font-size: 0.875rem; color: #374151; margin-bottom: 0.5rem; display: block; }
+        .quote-author { font-size: 0.75rem; font-weight: 700; color: #6b7280; text-transform: uppercase; }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .resume-paper { box-shadow: none; margin: 0; padding: 0.5in; max-width: 100%; }
+            .no-print { display: none; }
+        }
+
+        .contact-link:hover { text-decoration: underline; color: #1e40af; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="resume-paper">
+        <!-- Header -->
+        <header class="text-center border-b-2 border-gray-100 pb-6 mb-6">
+            <h1>Angelica Lei C. Quebec</h1>
+            <p class="text-xl font-medium text-gray-600 mt-1">Solutions Architect | Technology Leader</p>
+            <div class="flex flex-wrap justify-center gap-x-4 gap-y-1 mt-3 text-sm text-gray-500">
+                <span>Cavite, Philippines</span>
+                <span class="hidden md:inline">•</span>
+                <a href="mailto:angelicaquebec@gmail.com" class="contact-link">angelicaquebec@gmail.com</a>
+                <span class="hidden md:inline">•</span>
+                <span>09985892929</span>
+            </div>
+            <div class="flex justify-center gap-4 mt-2 text-sm font-semibold text-blue-800">
+                <a href="#" class="contact-link">LinkedIn</a>
+                <a href="#" class="contact-link">GitHub</a>
+            </div>
+        </header>
+
+        <!-- Summary -->
+        <section class="section-content">
+            <h2>Professional Summary</h2>
+            <p class="text-sm text-gray-700 leading-relaxed text-justify">
+                AI Solutions Architect and Technology Leader with 12+ years of experience designing and implementing intelligent systems across IoT, cloud platforms, and enterprise solutions. Proven track record of architecting end-to-end AI-powered solutions including AI agent systems with human-in-the-loop workflows that drive operational efficiency and business transformation. Expert in translating complex business requirements into scalable AI architectures, human-supervised AI agent orchestration, and delivering production-grade intelligent systems with robust approval mechanisms from concept to deployment.
+            </p>
+        </section>
+
+        <!-- Core Expertise -->
+        <section class="section-content">
+            <h2>Core Expertise & Philosophy</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                <div>
+                    <h3 class="text-xs font-bold text-gray-400 uppercase mb-1">Core Expertise:</h3>
+                    <p class="text-gray-700">AI Solution Architecture, Human-Supervised AI Agent Systems, Cloud-Native AI Systems, IoT Intelligence Platforms, AI-Assisted Decision Making, Data Pipeline Architecture, Enterprise AI Transformation, Technical Leadership</p>
+                </div>
+                <div>
+                    <h3 class="text-xs font-bold text-gray-400 uppercase mb-1">Solutions Architecture Philosophy:</h3>
+                    <ul class="list-none space-y-1 text-gray-700">
+                        <li>• <strong>Simple and Executable:</strong> Design solutions that are intuitive for teams to adapt and execute efficiently</li>
+                        <li>• <strong>Practical and Fast to Market:</strong> Deliver cost-effective architectures optimized for rapid business value realization</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience -->
+        <section class="section-content">
+            <h2>Technical Architecture Experience</h2>
+
+            <!-- MediCard -->
+            <div class="mb-6">
+                <div class="job-header">
+                    <h3>Solutions Architect | MediCard Philippines</h3>
+                    <span class="job-date">Nov 2025 - Present</span>
+                </div>
+                <span class="job-sub">Next-Generation Healthcare Ecosystem Architecture</span>
+                <ul class="bullet-list text-gray-700">
+                    <li>Architecting <strong>MedGo 2.0</strong>, a comprehensive digital healthcare ecosystem designed to modernize patient engagement and streamline clinical provider workflows</li>
+                    <li>Leading the technical integration of <strong>FaceScan (Nuralogix)</strong> technology, implementing advanced transdermal optical imaging for non-invasive health parameter assessment</li>
+                    <li>Designing scalable healthcare solution blueprints within <strong>Microsoft Azure</strong>, ensuring high availability, HIPAA compliance, and secure data orchestration for multi-tenant applications</li>
+                    <li>Driving technical roadmaps for cloud-native health platforms, bridging complex medical business requirements with robust, executable engineering designs</li>
+                </ul>
+            </div>
+
+            <!-- Wilson Parking -->
+            <div class="mb-6">
+                <div class="job-header">
+                    <h3>Chief Architect | Wilson Parking Singapore</h3>
+                    <span class="job-date">August 2025 - October 2025</span>
+                </div>
+                <span class="job-sub">AI-Assisted Operations Platform with Intelligent Automation</span>
+                <ul class="bullet-list text-gray-700">
+                    <li>Architected intelligent monitoring ecosystem for 347+ locations, implementing real-time AI-driven variance detection that transitioned operations from reactive to predictive intelligence</li>
+                    <li>Designed AI agent system architecture with human-supervised resolution capabilities targeting 85% reduction in manual intervention through intelligent decision-making and automated recommendations with approval workflows</li>
+                    <li>Architected machine learning-based payment validation roadmap with planned AI agents for automatic detection, diagnosis, and resolution of payment discrepancies with human oversight and approval mechanisms</li>
+                    <li>Designed comprehensive AI-assisted data integration platform roadmap for managing complex payment ecosystems (CHU, PMS, NETS, CEPAS, UPOS) with planned AI agents providing intelligent routing recommendations, error analysis, and system recovery suggestions</li>
+                    <li>Developed POC for AI-powered monitoring system demonstrating potential revenue protection exceeding $3,000 per incident through AI-driven issue detection and human-approved resolution workflows</li>
+                    <li>Architected intelligent AI agent orchestration system where agents collaborate to analyze multi-system failures, perform root cause analysis, recommend fix procedures, and present solutions for human validation before execution</li>
+                    <li>Established AI-driven error categorization and resolution system (800-912 series) with AI agents that classify issues, suggest appropriate escalation paths, and propose resolution protocols for human approval</li>
+                    <li>Designed predictive maintenance AI architecture roadmap for system health monitoring, failure prediction, and proactive preventive measure recommendations across 347 locations with human oversight</li>
+                </ul>
+            </div>
+
+            <!-- Brokerpedia -->
+            <div class="mb-6">
+                <div class="job-header">
+                    <h3>Software Engineering Manager & AI Transformation Lead | Brokerpedia</h3>
+                    <span class="job-date">Feb 2024 - July 2025</span>
+                </div>
+                <span class="job-sub">Enterprise AI Platform Architecture - 16,000+ Active Users</span>
+                <ul class="bullet-list text-gray-700">
+                    <li>Architected and executed comprehensive AI-powered SaaS platform serving 16,000+ brokers across Australia, translating complex business intelligence requirements into scalable technical solutions</li>
+                    <li>Launched the "Gather Intel" AI module, transforming analytical workflows from hours to seconds through intelligent data processing and natural language interfaces</li>
+                    <li>Designed and integrated AI-powered search engine with intelligent summaries inspired by Google Search AI and Perplexity, delivering contextual financial insights and automated research capabilities for broker decision-making</li>
+                    <li>Developed and released "Robin" - GPT for Brokers leveraging multi-model AI architecture with OpenAI and Gemini services on Azure AI Foundry, featuring dynamic model switching capabilities and foundation anchored in proprietary search engine utilizing Elasticsearch (ELS)</li>
+                    <li>Redesigned user account system with smart account matching algorithm combining Levenshtein Distance and Jaro-Winkler algorithms to automatically identify duplicate accounts, enabling seamless data migration and configuration preservation when brokers change companies</li>
+                    <li>Designed and deployed integrated livestreaming platform architecture enabling real-time broker training and lender promotion capabilities, creating new revenue streams through educational technology</li>
+                    <li>Built intelligent content AI agent and news feed system providing automated content generation for brokers' social media channels, leveraging AI to curate and personalize financial industry content</li>
+                    <li>Architected gamification system roadmap ("Broker Quotient") with AI-driven assessment framework designed to identify and reward top-performing brokers in Australia through intelligent scoring algorithms and competitive mechanics</li>
+                    <li>Designed AI-driven SaaS architecture projected to generate $400,000 additional monthly recurring revenue through intelligent automation and insights</li>
+                    <li>Led AI transformation initiative across distributed international engineering teams, establishing multi-model AI integration practices and cloud AI service implementation patterns</li>
+                </ul>
+            </div>
+
+            <!-- Thinxtra -->
+            <div class="mb-6">
+                <div class="job-header">
+                    <h3>IoT Solutions Architect & Support Manager | Thinxtra</h3>
+                    <span class="job-date">Sep 2019 - Jan 2024</span>
+                </div>
+                <span class="job-sub">Intelligent IoT Ecosystem Architecture</span>
+                <ul class="bullet-list text-gray-700">
+                    <li>Transformed the customer experience for an IoT ecosystem, elevating client satisfaction ratings from 1-star to 5-stars through AI-powered support systems and comprehensive solution optimization</li>
+                    <li>Executed critical IoT implementation rescue for Australian government council, delivering last-minute technical resolution that saved their public demonstration and earned recognition for "saving their lives" during mission-critical project delivery</li>
+                    <li>Streamlined inter-departmental data integration and architected executive KPI dashboard, consolidating cross-functional metrics to provide CEO with real-time visibility into organizational performance and strategic decision-making insights</li>
+                    <li>Designed intelligent device integration architecture for industrial and smart utility clients, managing the full lifecycle of IoT solutions from concept to deployment across government and enterprise sectors</li>
+                    <li>Implemented AI-driven support automation increasing operational efficiency by 60% through machine learning-powered knowledge systems and intelligent troubleshooting workflows</li>
+                    <li>Built predictive analytics platform for IoT device monitoring and intelligent maintenance scheduling, reducing downtime and improving system reliability across client deployments</li>
+                    <li>Developed intelligent troubleshooting systems using pattern recognition and automated resolution workflows, enabling rapid issue identification and resolution for complex IoT ecosystems</li>
+                </ul>
+            </div>
+
+            <!-- Accenture -->
+            <div class="mb-6">
+                <div class="job-header">
+                    <h3>Senior Software Engineer - IoT Solutions | Accenture</h3>
+                    <span class="job-date">Oct 2017 - Sep 2019</span>
+                </div>
+                <span class="job-sub">Award-Winning Serverless IoT Cloud Architecture</span>
+                <ul class="bullet-list text-gray-700">
+                    <li>Architected and deployed production-grade Smart IoT Cloud infrastructure on Azure using cutting-edge serverless/nano-services architecture with zero bugs in production environment</li>
+                    <li>Designed comprehensive GDPR-compliant IoT ecosystem leveraging Azure IoT Hub with DPS for secure device provisioning, Azure Functions (Router/Processor) for serverless compute, Event Grid/Service Bus for reliable messaging, and complete data pipeline architecture</li>
+                    <li>Implemented intelligent real-time data processing architecture using Azure Stream Analytics for anomaly detection, Event Hub for high-throughput telemetry ingestion, Data Lake for scalable storage, and advanced analytics capabilities</li>
+                    <li>Built enterprise-scale cloud-native architecture with IoT Hub managing device connectivity (AMQP/MQTT/HTTP protocols), Azure Functions orchestrating event-driven workflows, and integrated storage solutions (Cosmos DB, SQL Elastic Pool, Storage Account)</li>
+                    <li>Architected end-to-end data pipeline from edge devices through Azure Data Factory ETL processes, Stream Analytics real-time processing, to user-facing Web App (Sitecore + React) with API gateway integration and SendGrid notification system</li>
+                    <li>Delivered immediate business impact with the IoT platform's future-ready capabilities achieving 60% reduction in service calls during pilot implementation and projected 10% decrease in service operational costs</li>
+                    <li>Designed and implemented comprehensive CI/CD pipelines using Azure DevOps with ARM/Bicep templates for infrastructure as code, enabling automated deployment and scaling of the entire serverless IoT ecosystem</li>
+                    <li>Project recognition: Received local and international awards for innovation and excellence in modern serverless-first IoT pipeline architecture</li>
+                    <li>Technical leadership: Pioneered implementation of nano-services architecture, establishing best practices for event-driven IoT solutions that influenced company-wide cloud strategy</li>
+                    <li>Achieved 85% + code coverage and code smell rating as evaluated by SonarQube through intelligent automated testing frameworks and rigorous quality assurance processes</li>
+                </ul>
+            </div>
+
+            <!-- CTSI -->
+            <div class="mb-6">
+                <div class="job-header">
+                    <h3>Full Stack Engineer & Solutions Architect | CTSI Logistics</h3>
+                    <span class="job-date">Jun 2013 - Jul 2017</span>
+                </div>
+                <span class="job-sub">Intelligent Supply Chain Platform</span>
+                <ul class="bullet-list text-gray-700">
+                    <li>Architected supply chain management platform from ground up using .NET MVC for comprehensive logistics operations</li>
+                    <li>Designed intelligent logistics planning module automating complex decision-making processes through intelligent algorithms</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Professional Recognition -->
+        <section class="section-content">
+            <h2>Professional Recognition</h2>
+            <div class="recognition-grid">
+                <div class="recognition-card">
+                    <span class="quote-text">"Angelica possesses a unique talent for streamlining complex technical processes and architecting efficient intelligent systems."</span>
+                    <span class="quote-author">- Adrian Tchordjallian, Solutions Engineering Manager</span>
+                </div>
+                <div class="recognition-card">
+                    <span class="quote-text">"Her architectural thinking and technical leadership consistently deliver exceptional solutions that transform business operations."</span>
+                    <span class="quote-author">- Romain De Fayard, Solutions Delivery Manager</span>
+                </div>
+                <div class="recognition-card">
+                    <span class="quote-text">"Exceptional technical communication and solution capabilities that consistently exceed expectations."</span>
+                    <span class="quote-author">- Mat Graham, Managing Director</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Architecture Skills -->
+        <section class="section-content">
+            <h2>Technical Architecture Skills</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-sm">
+                <div>
+                    <h3 class="text-gray-500 uppercase text-xs font-black mb-1">AI & Machine Learning Architecture</h3>
+                    <p class="text-gray-700"><strong>Platforms:</strong> Azure AI Foundry, DialogFlow, TensorFlow, GPT-4/mini, Gemini 1.5 Flash/Pro</p>
+                    <p class="text-gray-700 mt-1"><strong>Specializations:</strong> RAG Architecture, Conversational AI, Predictive Analytics, AI-Assisted Resolution, Content Agents, Custom GPT, Multi-Model Integration</p>
+                </div>
+                <div>
+                    <h3 class="text-gray-500 uppercase text-xs font-black mb-1">Cloud Architecture & Infrastructure</h3>
+                    <p class="text-gray-700"><strong>Azure:</strong> IoT Hub, Functions, Event Grid, Service Bus, Stream Analytics, Data Lake, Cosmos DB, SQL Elastic Pool, Azure AI Foundry</p>
+                    <p class="text-gray-700 mt-1"><strong>Patterns:</strong> Serverless-First, Event-Driven, Microservices, Cloud-Native, AMQP/MQTT/HTTP</p>
+                </div>
+                <div>
+                    <h3 class="text-gray-500 uppercase text-xs font-black mb-1">Development & Integration</h3>
+                    <p class="text-gray-700"><strong>Languages:</strong> C#/.NET, Python, PHP, JavaScript, SQL</p>
+                    <p class="text-gray-700"><strong>Frameworks:</strong> React, Angular, Vue, Sitecore CMS, REST APIs</p>
+                </div>
+                <div>
+                    <h3 class="text-gray-500 uppercase text-xs font-black mb-1">DevOps & Leadership</h3>
+                    <p class="text-gray-700"><strong>DevOps:</strong> Azure DevOps, Docker, ARM/Bicep Templates, CI/CD</p>
+                    <p class="text-gray-700"><strong>Leadership:</strong> Technical Roadmapping, Mentorship, Stakeholder Management, Agile</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education -->
+        <section class="section-content">
+            <h2>Education & Certifications</h2>
+            <div class="text-sm">
+                <div class="flex justify-between items-baseline mb-1">
+                    <h3 class="font-bold">Bachelor of Technology in Information Technology</h3>
+                    <span class="text-gray-500 font-semibold">2017</span>
+                </div>
+                <p class="text-gray-700 mb-2">Technological University of the Philippines - Manila</p>
+                <ul class="bullet-list text-gray-700 mb-4">
+                    <li>Thesis: ParkKing: IoT Enabled Intelligent Parking System</li>
+                    <li>Thesis Leader & Research Forum Awardee</li>
+                </ul>
+
+                <h3 class="text-gray-500 uppercase text-xs font-black mb-2">Professional Certifications</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1 text-gray-700 font-medium italic">
+                    <div>• Certified AI Transformation Leader (CAITL™) - In Progress</div>
+                    <div>• Certified Artificial Intelligence Engineer (CAIE™) - In Progress</div>
+                    <div>• Professional Scrum Master I (PSM I)</div>
+                    <div>• Microsoft Certified: Azure Fundamentals (AZ-900)</div>
+                    <div>• HIPAA Certified Professional (HIPAAP)</div>
+                    <div>• ITIL Framework - Service Management</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Differentiators -->
+        <section class="section-content">
+            <h2>Key Differentiators</h2>
+            <ul class="bullet-list grid grid-cols-1 md:grid-cols-2 gap-x-8 text-gray-700">
+                <li>Multi-Model AI Integration & Dynamic Switching</li>
+                <li>Human-Supervised AI Agent Systems</li>
+                <li>Custom GPT Development & Deployment</li>
+                <li>Complete IoT-to-AI Pipeline Architecture</li>
+                <li>Large-Scale User Platform Architecture (16,000+)</li>
+                <li>AI-Assisted Decision Making with Human Oversight</li>
+                <li>Award-Winning Architecture Design (Zero Bugs)</li>
+                <li>Business Impact Focus ($400K+ Monthly Revenue)</li>
+            </ul>
+        </section>
+    </div>
+
+</body>
+</html>
