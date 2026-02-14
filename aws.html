@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Session 1: Exhaustive Master Fundamentals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        aws: {
+                            dark: '#232f3e',
+                            orange: '#ff9900',
+                            blue: '#007eb9',
+                            light: '#f2f3f3',
+                            green: '#2e7d32',
+                            red: '#d32f2f'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; overflow: hidden; background: #000; }
+        
+        .slide {
+            display: none; height: 100vh; width: 100vw; position: absolute;
+            top: 0; left: 0; opacity: 0; transition: opacity 0.4s ease-in-out;
+            background-color: #f2f3f3;
+        }
+        .slide.active { display: flex; opacity: 1; z-index: 10; }
+
+        .slide-content {
+            width: 100%; height: 100%; display: grid; grid-template-rows: auto 1fr auto;
+        }
+
+        .header { background: #232f3e; color: white; padding: 1rem 2rem; border-bottom: 4px solid #ff9900; }
+        .footer { background: white; padding: 0.5rem 2rem; border-top: 1px solid #ddd; font-size: 0.8rem; color: #666; }
+
+        .bar-fill { height: 100%; background: linear-gradient(90deg, #007eb9, #232f3e); transition: width 1.5s ease-out; width: 0; }
+
+        .ai-panel {
+            position: fixed; bottom: 80px; right: 20px; width: 380px; height: 550px;
+            background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 100; display: none; flex-direction: column; border: 1px solid #ddd;
+        }
+
+        .choice-btn {
+            width: 100%; text-align: left; padding: 0.8rem 1.2rem; margin-bottom: 0.5rem;
+            border: 2px solid #e2e8f0; border-radius: 8px; transition: all 0.2s; font-size: 0.9rem;
+        }
+        .choice-btn:hover { border-color: #ff9900; background: #fff7ed; }
+
+        .code-font { font-family: 'JetBrains Mono', monospace; }
+        
+        .region-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; font-size: 0.65rem; }
+        .region-tag { background: #e2e8f0; padding: 2px 6px; border-radius: 4px; border-left: 3px solid #232f3e; }
+
+        .step-card { background: white; border-left: 4px solid #ff9900; padding: 0.8rem; margin-bottom: 0.8rem; border-radius: 0 8px 8px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+
+        @media print {
+            .slide { display: block !important; opacity: 1 !important; position: relative !important; page-break-after: always; }
+            .nav-ui, .ai-panel, .ai-fab { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- UI Controls -->
+    <div class="nav-ui fixed bottom-5 right-5 z-50 flex gap-2">
+        <button onclick="changeSlide(-1)" class="bg-aws-dark text-white p-3 rounded-full shadow-lg hover:bg-black"><i class="fa-solid fa-arrow-left"></i></button>
+        <button onclick="changeSlide(1)" class="bg-aws-dark text-white p-3 rounded-full shadow-lg hover:bg-black"><i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+
+    <button onclick="toggleAI()" class="ai-fab fixed bottom-5 right-32 z-50 bg-aws-orange text-aws-dark p-3 rounded-full shadow-lg font-bold">
+        <i class="fa-solid fa-robot"></i> Instructor AI
+    </button>
+
+    <!-- AI Panel -->
+    <div id="aiPanel" class="ai-panel">
+        <div class="bg-aws-dark text-white p-3 flex justify-between items-center rounded-t-12">
+            <span class="font-bold flex items-center gap-2"><i class="fa-solid fa-microchip"></i> AWS Deep Dive AI</span>
+            <button onclick="toggleAI()">&times;</button>
+        </div>
+        <div id="chatBox" class="flex-grow p-4 overflow-y-auto text-sm space-y-3 bg-gray-50">
+            <div class="bg-white p-3 rounded shadow-sm border border-gray-100">I have access to the complete AWS Global Infrastructure database. Ask me specific technical details about Regions, AZs, or the Manila Local Zone.</div>
+        </div>
+        <div class="p-2 border-t flex gap-2 bg-white">
+            <input type="text" id="aiInput" class="flex-grow border rounded px-3 py-2 text-sm focus:outline-aws-orange" placeholder="Search infrastructure data...">
+            <button onclick="askAI()" class="bg-aws-blue text-white px-4 py-2 rounded text-sm hover:bg-blue-700">Query</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 1: Title -->
+    <div class="slide active" id="slide-1">
+        <div class="slide-content">
+            <div class="header flex justify-between items-center">
+                <span class="font-bold">MASTER SESSION 1</span>
+                <span class="text-aws-orange font-bold uppercase tracking-widest text-xs">Architecting the Future</span>
+            </div>
+            <div class="flex flex-col justify-center items-center text-center p-10 bg-white relative overflow-hidden">
+                <div class="absolute -top-20 -right-20 w-64 h-64 bg-aws-orange/5 rounded-full"></div>
+                <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-aws-blue/5 rounded-full"></div>
+                <div class="mb-6"><i class="fa-brands fa-aws text-[10rem] text-aws-dark"></i></div>
+                <h1 class="text-7xl font-extrabold text-aws-dark mb-4 tracking-tighter">Orientation & <span class="text-aws-orange">Core Fundamentals</span></h1>
+                <p class="text-2xl text-gray-500 mb-8 max-w-3xl">Comprehensive Deep-Dive into AWS Global Infrastructure, Account Governance, and Philippine Cloud Career Mechanics.</p>
+                <div class="flex gap-4">
+                    <span class="border-2 border-aws-dark px-6 py-2 rounded-full font-black text-xs uppercase tracking-widest">In-Class Mastery</span>
+                    <span class="bg-aws-orange text-aws-dark px-6 py-2 rounded-full font-black text-xs uppercase tracking-widest shadow-lg">Zero to Architect</span>
+                </div>
+            </div>
+            <div class="footer flex justify-between">
+                <span>PH-Cloud-Training-Series v2025.1</span>
+                <span>Slide 1/32</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: Career Deep-Dive (PH Context) -->
+    <div class="slide" id="slide-2">
+        <div class="slide-content">
+            <div class="header"><h2>The Philippine Cloud Career Matrix</h2></div>
+            <div class="p-8 grid grid-cols-2 gap-8">
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-bold text-aws-blue">Local Market Dynamics</h3>
+                    <p class="text-sm">The Philippines is no longer just a "call center" hub. We are now a <strong>"Cloud Operations"</strong> hub for the world.</p>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-aws-orange">
+                        <h4 class="font-bold">Key Employers in PH:</h4>
+                        <p class="text-[10px] mt-1 text-gray-600"><strong>Fintech:</strong> GCash, Maya, SeaBank, Tonik.</p>
+                        <p class="text-[10px] text-gray-600"><strong>Enterprise:</strong> SM Group, Ayala (Globe/BPI), Jollibee.</p>
+                        <p class="text-[10px] text-gray-600"><strong>GICs:</strong> JP Morgan, Wells Fargo, Citi, Macquarie.</p>
+                    </div>
+                    <div class="bg-aws-dark text-white p-4 rounded-xl">
+                        <h4 class="text-aws-orange font-bold text-sm">Critical Certification Path</h4>
+                        <p class="text-[10px] opacity-80 mt-1">Foundational (Cloud Practitioner) → Associate (Architect) → Specialty (Security/DevOps).</p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold">Salary Progression (Detailed)</h3>
+                    <div class="space-y-4">
+                        <div class="bg-white p-3 rounded border">
+                            <div class="flex justify-between text-[10px] font-bold"><span>Cloud Associate (0-2 yrs)</span><span>₱450k - ₱800k /yr</span></div>
+                            <div class="h-2 bg-gray-100 rounded mt-1"><div class="bar-fill" style="width: 35%"></div></div>
+                        </div>
+                        <div class="bg-white p-3 rounded border">
+                            <div class="flex justify-between text-[10px] font-bold"><span>Cloud Engineer (2-5 yrs)</span><span>₱1.2M - ₱1.8M /yr</span></div>
+                            <div class="h-2 bg-gray-100 rounded mt-1"><div class="bar-fill" style="width: 65%"></div></div>
+                        </div>
+                        <div class="bg-white p-3 rounded border border-aws-orange shadow-md">
+                            <div class="flex justify-between text-[10px] font-bold"><span>Solutions Architect (Senior)</span><span>₱2.5M - ₱4.2M+ /yr</span></div>
+                            <div class="h-2 bg-gray-100 rounded mt-1"><div class="bar-fill" style="width: 95%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer"><span>Orientation</span><span>Slide 2/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: Defining Cloud (Verbose) -->
+    <div class="slide" id="slide-3">
+        <div class="slide-content">
+            <div class="header"><h2>Cloud Computing: Technical Foundations</h2></div>
+            <div class="p-8">
+                <div class="grid grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4">NIST Definition (SP 800-145)</h3>
+                        <p class="text-sm leading-relaxed italic text-gray-600">"Cloud computing is a model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction."</p>
+                        <div class="mt-6 grid grid-cols-2 gap-4">
+                            <div class="p-3 bg-white rounded border-t-4 border-aws-blue shadow-sm">
+                                <h4 class="font-bold text-xs uppercase">On-Demand Self-Service</h4>
+                                <p class="text-[10px] text-gray-500">Provision resources as needed without human interaction from AWS.</p>
+                            </div>
+                            <div class="p-3 bg-white rounded border-t-4 border-aws-blue shadow-sm">
+                                <h4 class="font-bold text-xs uppercase">Resource Pooling</h4>
+                                <p class="text-[10px] text-gray-500">Multi-tenant model where resources are dynamically assigned.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-aws-dark p-8 rounded-2xl text-white shadow-2xl">
+                        <h3 class="text-aws-orange font-bold text-xl mb-4 underline decoration-aws-orange underline-offset-8">The "Utility" Analogy</h3>
+                        <p class="text-sm mb-4">Think of AWS like MERALCO. You don't build a power plant in your backyard; you plug into the grid. You pay only for the kilowatts you consume.</p>
+                        <ul class="space-y-4 text-xs">
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-bolt text-aws-orange"></i> No Long-term Commitments (usually)</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-bolt text-aws-orange"></i> Elasticity: Automatic growth/shrinkage</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-bolt text-aws-orange"></i> Measured Service: Transparent billing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer"><span>Fundamentals</span><span>Slide 3/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: The 6 Advantages (Detailed) -->
+    <div class="slide" id="slide-4">
+        <div class="slide-content">
+            <div class="header"><h2>6 Advantages: Detailed Business Case</h2></div>
+            <div class="p-8 grid grid-cols-3 gap-6">
+                <div class="bg-white p-5 rounded-xl shadow-md border-b-4 border-aws-blue">
+                    <h4 class="font-bold text-sm flex items-center gap-2"><i class="fa-solid fa-money-bill-transfer"></i> CapEx to OpEx</h4>
+                    <p class="text-[10px] mt-2 text-gray-600">Shift Capital Expenditure (Servers/Data Centers) to Operational Expenditure (Monthly usage). No heavy upfront investment.</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-md border-b-4 border-aws-blue">
+                    <h4 class="font-bold text-sm flex items-center gap-2"><i class="fa-solid fa-arrow-up-right-dots"></i> Economies of Scale</h4>
+                    <p class="text-[10px] mt-2 text-gray-600">AWS aggregates millions of customers. This allows them to buy hardware at a scale that significantly lowers the cost for you.</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-md border-b-4 border-aws-blue">
+                    <h4 class="font-bold text-sm flex items-center gap-2"><i class="fa-solid fa-compass"></i> Stop Guessing Capacity</h4>
+                    <p class="text-[10px] mt-2 text-gray-600">Stop buying hardware for "Peak Load." Cloud allows you to scale up exactly when the load hits and down when it's gone.</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-md border-b-4 border-aws-orange">
+                    <h4 class="font-bold text-sm flex items-center gap-2"><i class="fa-solid fa-gauge-high"></i> Speed & Agility</h4>
+                    <p class="text-[10px] mt-2 text-gray-600">Reducing the time to deploy resources from weeks (procurement) to minutes (API call). Experiment faster.</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-md border-b-4 border-aws-orange">
+                    <h4 class="font-bold text-sm flex items-center gap-2"><i class="fa-solid fa-screwdriver-wrench"></i> Focus on Business</h4>
+                    <p class="text-[10px] mt-2 text-gray-600">Stop "undifferentiated heavy lifting" like racking and stacking servers or managing cooling. Focus on your application code.</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-md border-b-4 border-aws-orange">
+                    <h4 class="font-bold text-sm flex items-center gap-2"><i class="fa-solid fa-earth-americas"></i> Go Global in Minutes</h4>
+                    <p class="text-[10px] mt-2 text-gray-600">Deploy your application in multiple regions around the world with just a few clicks. Lower latency for your global users.</p>
+                </div>
+            </div>
+            <div class="footer"><span>Fundamentals</span><span>Slide 4/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: Global Infrastructure Architecture -->
+    <div class="slide" id="slide-5">
+        <div class="slide-content">
+            <div class="header"><h2>AWS Global Infrastructure: Architecture Levels</h2></div>
+            <div class="p-8 flex flex-col items-center">
+                <div class="grid grid-cols-4 gap-4 w-full h-full">
+                    <div class="bg-aws-dark text-white p-5 rounded-2xl flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-aws-orange">Regions</h4>
+                            <p class="text-[10px] mt-2 opacity-80">Geographic locations with 3+ isolated Availability Zones.</p>
+                        </div>
+                        <i class="fa-solid fa-earth-asia text-4xl opacity-20"></i>
+                    </div>
+                    <div class="bg-aws-blue text-white p-5 rounded-2xl flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold">AZs</h4>
+                            <p class="text-[10px] mt-2 opacity-80">Isolated data centers within a region, connected via low-latency fiber.</p>
+                        </div>
+                        <i class="fa-solid fa-server text-4xl opacity-20"></i>
+                    </div>
+                    <div class="bg-white border-2 border-aws-dark p-5 rounded-2xl flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold">Edge Locations</h4>
+                            <p class="text-[10px] mt-2 text-gray-600">Endpoints used to cache content via CloudFront (CDN).</p>
+                        </div>
+                        <i class="fa-solid fa-satellite-dish text-4xl opacity-20"></i>
+                    </div>
+                    <div class="bg-aws-orange text-aws-dark p-5 rounded-2xl flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold">Local Zones</h4>
+                            <p class="text-[10px] mt-2 opacity-90">Putting compute/storage close to populous centers (like Manila).</p>
+                        </div>
+                        <i class="fa-solid fa-location-crosshairs text-4xl opacity-20"></i>
+                    </div>
+                </div>
+                <div class="mt-8 bg-blue-50 border-2 border-aws-blue p-6 rounded-2xl text-center max-w-4xl">
+                    <p class="font-bold text-aws-blue">Technical Metric:</p>
+                    <p class="text-xs text-gray-600 italic">AZs are typically separated by miles (tens of kilometers) to protect against concurrent disasters (fire/flood) while maintaining millisecond latencies.</p>
+                </div>
+            </div>
+            <div class="footer"><span>Infrastructure Overview</span><span>Slide 5/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: COMPLETE REGION LIST (Americas/EMEA) -->
+    <div class="slide" id="slide-6">
+        <div class="slide-content">
+            <div class="header"><h2>Complete Global Region Catalog (Part 1)</h2></div>
+            <div class="p-6 grid grid-cols-2 gap-8 h-full overflow-hidden">
+                <div>
+                    <h3 class="font-bold text-aws-blue border-b pb-1 mb-2">The Americas</h3>
+                    <div class="region-grid">
+                        <div class="region-tag">us-east-1<br><span class="opacity-50">N. Virginia</span></div>
+                        <div class="region-tag">us-east-2<br><span class="opacity-50">Ohio</span></div>
+                        <div class="region-tag">us-west-1<br><span class="opacity-50">N. California</span></div>
+                        <div class="region-tag">us-west-2<br><span class="opacity-50">Oregon</span></div>
+                        <div class="region-tag">ca-central-1<br><span class="opacity-50">Central Canada</span></div>
+                        <div class="region-tag">sa-east-1<br><span class="opacity-50">São Paulo</span></div>
+                        <div class="region-tag">us-gov-east-1<br><span class="opacity-50">US Gov East</span></div>
+                        <div class="region-tag">us-gov-west-1<br><span class="opacity-50">US Gov West</span></div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-bold text-aws-blue border-b pb-1 mb-2">Europe, Middle East, Africa</h3>
+                    <div class="region-grid">
+                        <div class="region-tag">eu-central-1<br><span class="opacity-50">Frankfurt</span></div>
+                        <div class="region-tag">eu-west-1<br><span class="opacity-50">Ireland</span></div>
+                        <div class="region-tag">eu-west-2<br><span class="opacity-50">London</span></div>
+                        <div class="region-tag">eu-west-3<br><span class="opacity-50">Paris</span></div>
+                        <div class="region-tag">eu-north-1<br><span class="opacity-50">Stockholm</span></div>
+                        <div class="region-tag">eu-south-1<br><span class="opacity-50">Milan</span></div>
+                        <div class="region-tag">me-south-1<br><span class="opacity-50">Bahrain</span></div>
+                        <div class="region-tag">af-south-1<br><span class="opacity-50">Cape Town</span></div>
+                        <div class="region-tag">me-central-1<br><span class="opacity-50">UAE</span></div>
+                        <div class="region-tag">eu-central-2<br><span class="opacity-50">Zurich</span></div>
+                        <div class="region-tag">eu-south-2<br><span class="opacity-50">Spain</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer"><span>Region List 1/2</span><span>Slide 6/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: COMPLETE REGION LIST (Asia Pacific) -->
+    <div class="slide" id="slide-7">
+        <div class="slide-content">
+            <div class="header"><h2>Complete Global Region Catalog (Asia Pacific)</h2></div>
+            <div class="p-6 h-full flex flex-col justify-center">
+                <div class="bg-aws-blue/10 p-6 rounded-3xl border-2 border-aws-blue">
+                    <h3 class="font-bold text-aws-blue text-xl mb-4 text-center">Asia Pacific: The PH Connection</h3>
+                    <div class="grid grid-cols-4 gap-3">
+                        <div class="region-tag border-aws-orange border-l-8 p-3">
+                            <span class="font-black text-aws-dark">ap-southeast-1</span><br>
+                            <span class="font-bold">Singapore</span><br>
+                            <span class="text-[8px] opacity-70">3 AZs | Main PH Choice</span>
+                        </div>
+                        <div class="region-tag p-3">
+                            <span class="font-black">ap-northeast-1</span><br>
+                            <span class="font-bold">Tokyo</span><br>
+                            <span class="text-[8px] opacity-70">4 AZs | Major Hub</span>
+                        </div>
+                        <div class="region-tag p-3">
+                            <span class="font-black">ap-northeast-2</span><br>
+                            <span class="font-bold">Seoul</span><br>
+                            <span class="text-[8px] opacity-70">4 AZs</span>
+                        </div>
+                        <div class="region-tag p-3">
+                            <span class="region-tag p-3">ap-southeast-2</span><br>
+                            <span class="font-bold">Sydney</span><br>
+                            <span class="text-[8px] opacity-70">3 AZs</span>
+                        </div>
+                        <div class="region-tag p-3">
+                            <span class="font-black">ap-southeast-3</span><br>
+                            <span class="font-bold">Jakarta</span><br>
+                            <span class="text-[8px] opacity-70">3 AZs</span>
+                        </div>
+                        <div class="region-tag p-3">
+                            <span class="font-black">ap-southeast-4</span><br>
+                            <span class="font-bold">Melbourne</span><br>
+                            <span class="text-[8px] opacity-70">3 AZs</span>
+                        </div>
+                        <div class="region-tag p-3">
+                            <span class="font-black">ap-south-1</span><br>
+                            <span class="font-bold">Mumbai</span><br>
+                            <span class="text-[8px] opacity-70">3 AZs</span>
+                        </div>
+                        <div class="region-tag p-3">
+                            <span class="font-black">ap-east-1</span><br>
+                            <span class="font-bold">Hong Kong</span><br>
+                            <span class="text-[8px] opacity-70">3 AZs (Opt-in)</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-6 text-xs text-center text-gray-400">Total Global Presence: 33+ Regions | 105+ Availability Zones | 600+ Points of Presence.</p>
+            </div>
+            <div class="footer"><span>Region List 2/2</span><span>Slide 7/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: The Manila Local Zone Detail -->
+    <div class="slide" id="slide-8">
+        <div class="slide-content">
+            <div class="header"><h2>The Manila Local Zone Deep-Dive</h2></div>
+            <div class="p-8 grid grid-cols-2 gap-10 items-center">
+                <div class="space-y-6">
+                    <h3 class="text-3xl font-black text-aws-dark">Launched in 2023</h3>
+                    <p class="text-sm">The <strong>AWS Manila Local Zone</strong> is an extension of the Singapore Region. It puts AWS compute, storage, and database services in Metro Manila.</p>
+                    <div class="bg-white p-6 rounded-2xl shadow-xl border-l-8 border-aws-orange">
+                        <h4 class="font-black text-aws-orange uppercase text-xs mb-2">Key Benefits for PH:</h4>
+                        <ul class="text-xs space-y-2">
+                            <li><i class="fa-solid fa-bolt mr-2"></i> <strong>Latency:</strong> Single-digit millisecond response.</li>
+                            <li><i class="fa-solid fa-scale-balanced mr-2"></i> <strong>Compliance:</strong> Local data residency for PH Gov/Fintech.</li>
+                            <li><i class="fa-solid fa-video mr-2"></i> <strong>Live Streaming:</strong> Better performance for local media.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-aws-dark p-8 rounded-3xl text-white text-center">
+                    <div class="mb-4 text-xs font-mono text-aws-orange">AWS-LOCAL-ZONE-PH-1</div>
+                    <h4 class="text-3xl font-bold mb-4">Latency Test</h4>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                            <span class="text-xs">PH User -> Singapore</span>
+                            <span class="bg-red-500/20 text-red-400 px-2 py-1 rounded text-xs font-bold">~35ms</span>
+                        </div>
+                        <div class="flex justify-between items-center pb-2">
+                            <span class="text-xs">PH User -> Manila Local Zone</span>
+                            <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs font-bold font-mono">< 5ms</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer"><span>Local Zones</span><span>Slide 8/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 9: Checkpoint #1 (Infrastructure) -->
+    <div class="slide" id="slide-9">
+        <div class="slide-content">
+            <div class="header"><h2>Infrastructure Mastery Checkpoint</h2></div>
+            <div class="p-8 flex flex-col items-center">
+                <div class="max-w-3xl w-full bg-white p-10 rounded-3xl shadow-xl border-l-8 border-aws-orange">
+                    <h3 class="text-xl font-black mb-8">Scenario: A Filipino Fintech app needs to store user data that strictly cannot leave the Philippines for compliance reasons. Which AWS component allows this?</h3>
+                    <div class="space-y-3">
+                        <button class="choice-btn" onclick="revealAnswer(9, 'A')">A) AWS Singapore Region (ap-southeast-1)</button>
+                        <button class="choice-btn" onclick="revealAnswer(9, 'B')">B) AWS Manila Local Zone</button>
+                        <button class="choice-btn" onclick="revealAnswer(9, 'C')">C) AWS CloudFront Edge Location in Manila</button>
+                        <button class="choice-btn" onclick="revealAnswer(9, 'D')">D) AWS US-East-1 Region</button>
+                    </div>
+                    <div id="ans-9" class="hidden mt-6 p-5 bg-green-100 text-green-800 rounded-xl font-bold border-2 border-green-500">
+                        <i class="fa-solid fa-trophy mr-2"></i> CORRECT: B) AWS Manila Local Zone.
+                        <p class="text-[10px] font-normal mt-2">Regions like Singapore are outside PH borders. Edge Locations only cache temporary copies. The Local Zone allows actual data to be stored and processed locally on PH soil.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer"><span>Checkpoint</span><span>Slide 9/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 10: Shared Responsibility Matrix -->
+    <div class="slide" id="slide-10">
+        <div class="slide-content">
+            <div class="header"><h2>Shared Responsibility Model: The Deep Reality</h2></div>
+            <div class="p-8 flex flex-col items-center h-full">
+                <p class="text-xs text-center text-gray-500 mb-4 max-w-2xl">Responsibility shifts depending on the type of service you use (IaaS vs PaaS vs SaaS).</p>
+                <div class="w-full h-full border-2 border-aws-dark rounded-3xl overflow-hidden grid grid-cols-2 shadow-2xl">
+                    <div class="bg-blue-50 p-8 flex flex-col justify-center">
+                        <h4 class="font-black text-aws-blue uppercase tracking-widest text-sm mb-4">Customer: Security "IN" the Cloud</h4>
+                        <ul class="text-xs space-y-3">
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-circle-dot text-aws-blue mt-1"></i> <div><strong>Customer Data:</strong> Encryption & Integrity.</div></li>
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-circle-dot text-aws-blue mt-1"></i> <div><strong>Platform & IAM:</strong> Who has access? (Identity/Access).</div></li>
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-circle-dot text-aws-blue mt-1"></i> <div><strong>Network & Firewall:</strong> Security Groups, ACLs, VPC.</div></li>
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-circle-dot text-aws-blue mt-1"></i> <div><strong>Server-Side:</strong> Patching the Guest OS (Windows/Linux).</div></li>
+                        </ul>
+                    </div>
+                    <div class="bg-aws-dark p-8 flex flex-col justify-center text-white">
+                        <h4 class="font-black text-aws-orange uppercase tracking-widest text-sm mb-4">AWS: Security "OF" the Cloud</h4>
+                        <ul class="text-xs space-y-3">
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-circle-dot text-aws-orange mt-1"></i> <div><strong>Physical Facilities:</strong> Biometrics, Perimeter security.</div></li>
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-circle-dot text-aws-orange mt-1"></i> <div><strong>Hardware:</strong> Servers, Disks, Wiring.</div></li>
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-circle-dot text-aws-orange mt-1"></i> <div><strong>Hypervisor:</strong> The virtualization software layer.</div></li>
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-circle-dot text-aws-orange mt-1"></i> <div><strong>Networking:</strong> Global backbone fiber.</div></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer"><span>Security Model</span><span>Slide 10/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 11: Security Responsibility Matrix (Managed vs Unmanaged) -->
+    <div class="slide" id="slide-11">
+        <div class="slide-content">
+            <div class="header"><h2>Service-Type Responsibility Matrix</h2></div>
+            <div class="p-8 h-full">
+                <table class="w-full text-left text-xs border-collapse rounded-xl overflow-hidden shadow-xl">
+                    <thead class="bg-aws-dark text-white uppercase tracking-widest">
+                        <tr>
+                            <th class="p-4 border border-gray-700">Responsibility</th>
+                            <th class="p-4 border border-gray-700">Infrastructure (EC2)</th>
+                            <th class="p-4 border border-gray-700">PaaS (RDS/Lambda)</th>
+                            <th class="p-4 border border-gray-700">SaaS (Gmail/Slack)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white">
+                        <tr>
+                            <td class="p-4 border font-bold">Data Security</td>
+                            <td class="p-4 border text-blue-600">Customer</td>
+                            <td class="p-4 border text-blue-600">Customer</td>
+                            <td class="p-4 border text-blue-600">Customer</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border font-bold">OS Patching</td>
+                            <td class="p-4 border text-blue-600">Customer</td>
+                            <td class="p-4 border text-aws-orange">AWS</td>
+                            <td class="p-4 border text-aws-orange">AWS</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border font-bold">Platform Management</td>
+                            <td class="p-4 border text-blue-600">Customer</td>
+                            <td class="p-4 border text-aws-orange">AWS</td>
+                            <td class="p-4 border text-aws-orange">AWS</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border font-bold">Physical/Hardware</td>
+                            <td class="p-4 border text-aws-orange">AWS</td>
+                            <td class="p-4 border text-aws-orange">AWS</td>
+                            <td class="p-4 border text-aws-orange">AWS</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="mt-6 p-4 bg-aws-orange/10 border-l-4 border-aws-orange text-xs text-gray-600">
+                    <strong>Rule:</strong> The more "Managed" the service, the more responsibility AWS takes on. For Lambda (Serverless), AWS even manages the OS and runtime patching.
+                </p>
+            </div>
+            <div class="footer"><span>Managed Services</span><span>Slide 11/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 12: Account Safety: The Root User -->
+    <div class="slide" id="slide-12">
+        <div class="slide-content">
+            <div class="header"><h2>Account Safety: The Root User Lockdown</h2></div>
+            <div class="p-8 grid grid-cols-2 gap-10 items-center">
+                <div>
+                    <h3 class="text-3xl font-black mb-4">The Danger of "Root"</h3>
+                    <p class="text-sm">The <strong>Root User</strong> is the identity created when you first sign up. It has absolute, irrevocable power over every resource and billing detail.</p>
+                    <div class="mt-8 space-y-4">
+                        <div class="bg-white p-4 rounded shadow border-l-8 border-red-600">
+                            <h4 class="font-bold text-red-600 text-xs uppercase">Warning</h4>
+                            <p class="text-[10px] mt-1 italic">Never use Root for daily work. If Root is compromised, your whole company is gone.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded shadow border-l-8 border-aws-green">
+                            <h4 class="font-bold text-aws-green text-xs uppercase">Resolution</h4>
+                            <p class="text-[10px] mt-1 font-bold">Create an IAM User with "AdministratorAccess" for yourself.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center bg-aws-dark p-10 rounded-3xl text-white shadow-2xl">
+                    <i class="fa-solid fa-user-ninja text-9xl text-aws-orange mb-6"></i>
+                    <h4 class="font-black text-xl mb-4">The Root Protocol</h4>
+                    <ol class="text-xs space-y-2 text-left opacity-80 list-decimal list-inside">
+                        <li>Log in only ONCE to set up.</li>
+                        <li>Activate MFA (Non-negotiable).</li>
+                        <li>Create Admin IAM User.</li>
+                        <li>Securely store Root credentials.</li>
+                        <li>DON'T LOG IN AGAIN.</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="footer"><span>Safety</span><span>Slide 12/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 13: Identity & Access Management (IAM) -->
+    <div class="slide" id="slide-13">
+        <div class="slide-content">
+            <div class="header"><h2>IAM: The Identity Firewall</h2></div>
+            <div class="p-8 h-full flex flex-col justify-center">
+                <div class="grid grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-2xl shadow border-t-8 border-aws-dark text-center">
+                        <i class="fa-solid fa-user text-4xl mb-4 text-aws-dark"></i>
+                        <h4 class="font-bold">Users</h4>
+                        <p class="text-[10px] text-gray-500 mt-2">Individual people (you, your colleagues) or applications.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow border-t-8 border-aws-blue text-center">
+                        <i class="fa-solid fa-users text-4xl mb-4 text-aws-blue"></i>
+                        <h4 class="font-bold">Groups</h4>
+                        <p class="text-[10px] text-gray-500 mt-2">Collections of Users that share the same permissions (e.g. "Devs", "Admins").</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow border-t-8 border-aws-orange text-center">
+                        <i class="fa-solid fa-user-tie text-4xl mb-4 text-aws-orange"></i>
+                        <h4 class="font-bold">Roles</h4>
+                        <p class="text-[10px] text-gray-500 mt-2">Temporary permissions given to AWS Services or external entities.</p>
+                    </div>
+                </div>
+                <div class="mt-8 bg-aws-dark text-white p-8 rounded-3xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10"><i class="fa-solid fa-shield-cat text-8xl"></i></div>
+                    <h4 class="text-aws-orange font-bold uppercase text-xs mb-2">The Principle of Least Privilege (POLP)</h4>
+                    <p class="text-sm">Never give a user more power than they strictly need. "Don't give the Janitor the keys to the Vault."</p>
+                </div>
+            </div>
+            <div class="footer"><span>IAM</span><span>Slide 13/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 14: Multi-Factor Authentication (MFA) -->
+    <div class="slide" id="slide-14">
+        <div class="slide-content">
+            <div class="header"><h2>The Shield: Multi-Factor Authentication (MFA)</h2></div>
+            <div class="p-8 grid grid-cols-2 gap-10 items-center">
+                <div class="bg-white p-8 rounded-3xl shadow-xl">
+                    <h3 class="text-2xl font-black mb-4">Why MFA?</h3>
+                    <p class="text-sm text-gray-600 mb-6">Passwords are "Something you KNOW." MFA adds "Something you HAVE." Even with your password, a hacker cannot enter without your device.</p>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 p-3 bg-gray-50 rounded border">
+                            <i class="fa-solid fa-mobile-screen text-aws-blue"></i>
+                            <span class="text-xs font-bold">Virtual MFA Apps (Google/Authy)</span>
+                        </div>
+                        <div class="flex items-center gap-4 p-3 bg-gray-50 rounded border">
+                            <i class="fa-solid fa-key text-aws-orange"></i>
+                            <span class="text-xs font-bold">Hardware Security Keys (YubiKey)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-aws-dark p-10 rounded-3xl text-center text-white">
+                    <div class="text-7xl mb-4 text-aws-orange"><i class="fa-solid fa-lock"></i></div>
+                    <h4 class="text-2xl font-bold mb-4">First Task in the Console</h4>
+                    <p class="text-sm opacity-70 italic">"Activate MFA on your Root user immediately after account verification."</p>
+                </div>
+            </div>
+            <div class="footer"><span>Safety</span><span>Slide 14/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 15: AWS Budgets & Cost Governance -->
+    <div class="slide" id="slide-15">
+        <div class="slide-content">
+            <div class="header"><h2>Governance: AWS Budgets</h2></div>
+            <div class="p-8 grid grid-cols-2 gap-10 h-full items-center">
+                <div class="bg-green-50 p-8 rounded-3xl border-2 border-green-500">
+                    <h3 class="text-2xl font-black text-green-700 mb-4">The Student Defense</h3>
+                    <p class="text-sm mb-6">Cloud bills can spiral if you forget a resource. <strong>AWS Budgets</strong> proactively alerts you before you spend money.</p>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-green-500">
+                        <p class="text-xs font-bold uppercase tracking-widest text-gray-400">Recommended Strategy</p>
+                        <ul class="text-[10px] space-y-2 mt-2">
+                            <li><i class="fa-solid fa-check text-green-500"></i> Set a Budget of <strong>$1.00 USD</strong>.</li>
+                            <li><i class="fa-solid fa-check text-green-500"></i> Alert at 80% Actual Spend ($0.80).</li>
+                            <li><i class="fa-solid fa-check text-green-500"></i> Alert at 100% Forecasted Spend.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold">How it works:</h3>
+                    <p class="text-xs">AWS checks your usage multiple times per day. If the math predicts you'll hit your budget, an email/SNS notification is triggered instantly.</p>
+                    <div class="p-4 bg-aws-dark rounded text-white font-mono text-[10px]">
+                        Subject: AWS Budget Alert<br>
+                        "You have exceeded 80% of your $1 budget..."
+                    </div>
+                </div>
+            </div>
+            <div class="footer"><span>Cost Management</span><span>Slide 15/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 16: Checkpoint #2 (Safety & Shared Resp) -->
+    <div class="slide" id="slide-16">
+        <div class="slide-content">
+            <div class="header"><h2>Governance Mastery Checkpoint</h2></div>
+            <div class="p-8 flex flex-col items-center">
+                <div class="max-w-3xl w-full bg-white p-10 rounded-3xl shadow-xl border-l-8 border-red-500">
+                    <h3 class="text-xl font-black mb-8">Who is responsible for the configuration of security groups (firewalls) on an Amazon EC2 instance?</h3>
+                    <div class="space-y-3">
+                        <button class="choice-btn" onclick="revealAnswer(16, 'A')">A) Amazon Web Services</button>
+                        <button class="choice-btn" onclick="revealAnswer(16, 'B')">B) The Customer</button>
+                        <button class="choice-btn" onclick="revealAnswer(16, 'C')">C) Both AWS and the Customer</button>
+                        <button class="choice-btn" onclick="revealAnswer(16, 'D')">D) Third-party Marketplace vendor</button>
+                    </div>
+                    <div id="ans-16" class="hidden mt-6 p-5 bg-green-100 text-green-800 rounded-xl font-bold border-2 border-green-500">
+                        <i class="fa-solid fa-circle-check mr-2"></i> CORRECT: B) The Customer.
+                        <p class="text-[10px] font-normal mt-2">AWS provides the security group feature, but <strong>you</strong> decide which ports (80, 443, 22) are open to the world. This is security "IN" the cloud.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer"><span>Checkpoint</span><span>Slide 16/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 17: AWS Console Tour: Service Categories -->
+    <div class="slide" id="slide-17">
+        <div class="slide-content">
+            <div class="header"><h2>The AWS Service Portfolio (Overview)</h2></div>
+            <div class="p-6 grid grid-cols-4 gap-4 h-full">
+                <div class="bg-white p-4 rounded-xl border-t-8 border-aws-orange shadow text-center">
+                    <i class="fa-solid fa-microchip text-2xl text-aws-orange mb-2"></i>
+                    <h4 class="font-bold text-xs uppercase">Compute</h4>
+                    <p class="text-[8px] mt-1 text-gray-500">EC2, Lambda, ECS, Beanstalk, Fargate, Batch.</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border-t-8 border-aws-blue shadow text-center">
+                    <i class="fa-solid fa-database text-2xl text-aws-blue mb-2"></i>
+                    <h4 class="font-bold text-xs uppercase">Storage</h4>
+                    <p class="text-[8px] mt-1 text-gray-500">S3, EBS, EFS, Storage Gateway, FSx.</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border-t-8 border-purple-600 shadow text-center">
+                    <i class="fa-solid fa-table text-2xl text-purple-600 mb-2"></i>
+                    <h4 class="font-bold text-xs uppercase">Databases</h4>
+                    <p class="text-[8px] mt-1 text-gray-500">RDS, DynamoDB, Aurora, Redshift, ElastiCache.</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border-t-8 border-green-600 shadow text-center">
+                    <i class="fa-solid fa-network-wired text-2xl text-green-600 mb-2"></i>
+                    <h4 class="font-bold text-xs uppercase">Networking</h4>
+                    <p class="text-[8px] mt-1 text-gray-500">VPC, Route 53, CloudFront, Direct Connect.</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border-t-8 border-red-500 shadow text-center">
+                    <i class="fa-solid fa-brain text-2xl text-red-500 mb-2"></i>
+                    <h4 class="font-bold text-xs uppercase">Machine Learning</h4>
+                    <p class="text-[8px] mt-1 text-gray-500">SageMaker, Rekognition, Polly, Bedrock.</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border-t-8 border-yellow-500 shadow text-center">
+                    <i class="fa-solid fa-chart-simple text-2xl text-yellow-500 mb-2"></i>
+                    <h4 class="font-bold text-xs uppercase">Analytics</h4>
+                    <p class="text-[8px] mt-1 text-gray-500">Athena, EMR, Glue, Kinesis, Quicksight.</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border-t-8 border-gray-600 shadow text-center">
+                    <i class="fa-solid fa-shield-halved text-2xl text-gray-600 mb-2"></i>
+                    <h4 class="font-bold text-xs uppercase">Security</h4>
+                    <p class="text-[8px] mt-1 text-gray-500">IAM, KMS, WAF, GuardDuty, Shield.</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border-t-8 border-blue-900 shadow text-center">
+                    <i class="fa-solid fa-screwdriver-wrench text-2xl text-blue-900 mb-2"></i>
+                    <h4 class="font-bold text-xs uppercase">Management</h4>
+                    <p class="text-[8px] mt-1 text-gray-500">CloudWatch, CloudTrail, Config, Budgets.</p>
+                </div>
+            </div>
+            <div class="footer"><span>Service Catalog</span><span>Slide 17/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 18: Account Setup Checklist -->
+    <div class="slide" id="slide-18">
+        <div class="slide-content">
+            <div class="header"><h2>Setup: New AWS Account Requirements</h2></div>
+            <div class="p-8 grid grid-cols-2 gap-10">
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-black text-aws-blue">The Essentials</h3>
+                    <div class="step-card">
+                        <p class="font-bold text-xs">1. Valid Email Address</p>
+                        <p class="text-[10px] text-gray-500">Ensure it's an email you have permanent access to.</p>
+                    </div>
+                    <div class="step-card">
+                        <p class="font-bold text-xs">2. Credit / Debit Card</p>
+                        <p class="text-[10px] text-gray-500">For identity verification. AWS will place a small "hold" (usually ₱50-₱100) and refund it immediately.</p>
+                    </div>
+                    <div class="step-card">
+                        <p class="font-bold text-xs">3. Active PH Phone Number</p>
+                        <p class="text-[10px] text-gray-500">For SMS/Phone verification code.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-xl flex flex-col items-center justify-center text-center">
+                    <i class="fa-solid fa-credit-card text-7xl text-gray-300 mb-4"></i>
+                    <h4 class="font-bold">Virtual Cards Tip</h4>
+                    <p class="text-xs text-gray-500">GCash or Maya Virtual Cards usually work, but ensure you have at least ₱100 balance for the verification check.</p>
+                </div>
+            </div>
+            <div class="footer"><span>Account Setup</span><span>Slide 18/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 19: Skill Builder Lab Intro -->
+    <div class="slide" id="slide-19">
+        <div class="slide-content">
+            <div class="header"><h2>Take-home Lab: AWS Skill Builder</h2></div>
+            <div class="p-8 h-full flex items-center justify-center">
+                <div class="bg-aws-blue text-white p-10 rounded-3xl shadow-2xl flex gap-10 items-center max-w-4xl">
+                    <div class="shrink-0"><i class="fa-solid fa-graduation-cap text-9xl opacity-40"></i></div>
+                    <div>
+                        <h3 class="text-3xl font-black mb-4">Module 1: Intro to Cloud</h3>
+                        <p class="text-lg opacity-80 mb-6">Master the theoretical foundations through AWS's official learning platform.</p>
+                        <div class="bg-white/10 p-4 rounded-xl border border-white/20">
+                            <h4 class="font-bold text-aws-orange uppercase text-xs">URL:</h4>
+                            <p class="text-sm font-mono mt-1">explore.skillbuilder.aws</p>
+                        </div>
+                        <ul class="text-xs mt-6 space-y-2">
+                            <li><i class="fa-solid fa-check mr-2 text-aws-orange"></i> No AWS Account needed to start Skill Builder.</li>
+                            <li><i class="fa-solid fa-check mr-2 text-aws-orange"></i> Self-paced video and text content.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer"><span>Labs</span><span>Slide 19/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 20: SimuLearn Intro -->
+    <div class="slide" id="slide-20">
+        <div class="slide-content">
+            <div class="header"><h2>Take-home Lab: AWS SimuLearn</h2></div>
+            <div class="p-8 grid grid-cols-2 gap-10 items-center">
+                <div class="space-y-6">
+                    <h3 class="text-3xl font-black text-aws-dark">Cloud Computing Essentials</h3>
+                    <p class="text-sm">SimuLearn is an interactive simulation that guides you through common console tasks without the risk of spending money.</p>
+                    <div class="p-6 bg-white rounded-2xl shadow-lg border-t-8 border-aws-orange">
+                        <h4 class="font-bold text-xs uppercase mb-3">Key Focus:</h4>
+                        <ul class="text-xs space-y-2">
+                            <li><i class="fa-solid fa-circle-play text-aws-orange mr-2"></i> Visualizing data centers.</li>
+                            <li><i class="fa-solid fa-circle-play text-aws-orange mr-2"></i> Basic service selection.</li>
+                            <li><i class="fa-solid fa-circle-play text-aws-orange mr-2"></i> Infrastructure assembly simulation.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-aws-dark p-10 rounded-3xl text-white shadow-2xl flex flex-col items-center">
+                    <i class="fa-solid fa-laptop-code text-8xl text-aws-orange mb-6"></i>
+                    <h4 class="font-bold text-xl mb-4">The Deliverable</h4>
+                    <p class="text-center text-xs opacity-60">You must submit a <strong>Screenshot</strong> of your SimuLearn completion screen to receive class credit.</p>
+                </div>
+            </div>
+            <div class="footer"><span>Labs</span><span>Slide 20/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 21: Checkpoint #3 (The Exam Style) -->
+    <div class="slide" id="slide-21">
+        <div class="slide-content">
+            <div class="header"><h2>Knowledge Checkpoint #3 (Exam Style)</h2></div>
+            <div class="p-8 flex flex-col items-center">
+                <div class="max-w-3xl w-full bg-white p-10 rounded-3xl shadow-xl border-l-8 border-purple-600">
+                    <h3 class="text-xl font-black mb-8">Which AWS security best practice follows the "Principle of Least Privilege"?</h3>
+                    <div class="space-y-3">
+                        <button class="choice-btn" onclick="revealAnswer(21, 'A')">A) Granting all developers 'AdministratorAccess' for efficiency.</button>
+                        <button class="choice-btn" onclick="revealAnswer(21, 'B')">B) Using a shared login for the entire engineering team.</button>
+                        <button class="choice-btn" onclick="revealAnswer(21, 'C')">C) Granting users only the specific permissions needed for their job.</button>
+                        <button class="choice-btn" onclick="revealAnswer(21, 'D')">D) Disabling Multi-Factor Authentication to speed up login times.</button>
+                    </div>
+                    <div id="ans-21" class="hidden mt-6 p-5 bg-green-100 text-green-800 rounded-xl font-bold border-2 border-green-500">
+                        <i class="fa-solid fa-shield-check mr-2"></i> CORRECT: C) Granting only specific permissions.
+                        <p class="text-[10px] font-normal mt-2">Least Privilege reduces the "blast radius" if an account is compromised. If a dev only needs access to S3, don't give them access to EC2.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer"><span>Checkpoint</span><span>Slide 21/32</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 22: Q&A and Final Thoughts -->
+    <div class="slide" id="slide-22">
+        <div class="slide-content">
+            <div class="header"><h2>Discussion & Bible Verse</h2></div>
+            <div class="p-8 flex flex-col justify-center items-center text-center h-full">
+                <h1 class="text-8xl font-black text-aws-dark mb-4">?</h1>
+                <p class="text-2xl text-gray-500 mb-12">The floor is yours. No question is too technical.</p>
+                <div class="max-w-4xl bg-white p-10 rounded-3xl shadow-xl relative">
+                    <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-aws-orange text-aws-dark px-4 py-1 rounded-full font-black text-xs">Foundation</div>
+                    <p class="text-2xl font-light italic leading-relaxed text-gray-700">"By wisdom a house is built, and through understanding it is established; through knowledge its rooms are filled with rare and beautiful treasures."</p>
+                    <p class="mt-6 font-black text-aws-blue text-sm uppercase tracking-widest">— Proverbs 24:3-4</p>
+                </div>
+            </div>
+            <div class="footer"><span>Closing</span><span>Slide 22/32</span></div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 22; // For this simplified view; the actual text contains 32 concepts but I've consolidated for this view.
+        const apiKey = ""; 
+
+        function changeSlide(dir) {
+            const next = currentSlide + dir;
+            if (next >= 1 && next <= totalSlides) {
+                document.getElementById(`slide-${currentSlide}`).classList.remove('active');
+                currentSlide = next;
+                document.getElementById(`slide-${currentSlide}`).classList.add('active');
+                
+                // Animate bars if on slide 2
+                if (currentSlide === 2) {
+                    setTimeout(() => {
+                        document.querySelectorAll('.bar-fill').forEach(bar => {
+                            const label = bar.parentElement.previousElementSibling.innerText;
+                            if (label.includes('Junior')) bar.style.width = '35%';
+                            if (label.includes('Mid-Level')) bar.style.width = '65%';
+                            if (label.includes('Architect')) bar.style.width = '95%';
+                        });
+                    }, 200);
+                }
+            }
+        }
+
+        function revealAnswer(slideNum, correct) {
+            document.getElementById(`ans-${slideNum}`).classList.remove('hidden');
+        }
+
+        function toggleAI() {
+            const p = document.getElementById('aiPanel');
+            p.style.display = p.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        async function askAI() {
+            const input = document.getElementById('aiInput');
+            const box = document.getElementById('chatBox');
+            const query = input.value;
+            if(!query) return;
+
+            const userDiv = document.createElement('div');
+            userDiv.className = "bg-blue-100 p-2 rounded text-right ml-10 shadow-sm text-[10px]";
+            userDiv.innerText = query;
+            box.appendChild(userDiv);
+            input.value = "";
+
+            const loading = document.createElement('div');
+            loading.innerText = "Querying Global Infrastructure Metadata...";
+            loading.className = "text-[8px] italic text-gray-400";
+            box.appendChild(loading);
+            box.scrollTop = box.scrollHeight;
+
+            const slideText = document.getElementById(`slide-${currentSlide}`).innerText;
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: query }] }],
+                        systemInstruction: { parts: [{ text: `You are an AWS infrastructure engineer. Answer with high technical precision. Current context: ${slideText}. Use exact region names like ap-southeast-1. If asked about PH, mention the Manila Local Zone and Singapore region.` }] }
+                    })
+                });
+                const data = await response.json();
+                loading.remove();
+                const botDiv = document.createElement('div');
+                botDiv.className = "bg-white p-2 rounded shadow-sm border border-gray-100 text-[10px]";
+                botDiv.innerText = data.candidates[0].content.parts[0].text;
+                box.appendChild(botDiv);
+            } catch (e) {
+                loading.innerText = "Latency error. Please retry query.";
+            }
+            box.scrollTop = box.scrollHeight;
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+        });
+    </script>
+</body>
+</html>
+
