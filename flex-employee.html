@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angelica Lei C. Quebec - Solutions Architect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a1a;
+            line-height: 1.4;
+            background-color: #ffffff;
+        }
+
+        .resume-paper {
+            width: 100%;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.025em; color: #111827; }
+        h2 { 
+            font-size: 1rem; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 0.05em; 
+            color: #1e40af; 
+            border-bottom: 1px solid #e5e7eb; 
+            padding-bottom: 0.15rem; 
+            margin-top: 1.25rem; 
+            margin-bottom: 0.5rem; 
+        }
+        h3 { font-size: 0.95rem; font-weight: 700; color: #374151; }
+        
+        .section-content { margin-bottom: 1rem; }
+        .bullet-list { list-style-type: disc; margin-left: 1.1rem; }
+        .bullet-list li { margin-bottom: 0.2rem; font-size: 0.85rem; text-align: justify; }
+        
+        .job-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.1rem; }
+        .job-date { font-size: 0.8rem; font-weight: 600; color: #6b7280; white-space: nowrap; }
+        .job-sub { font-style: italic; font-size: 0.85rem; color: #4b5563; margin-bottom: 0.25rem; display: block; }
+
+        .recognition-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 0.5rem; }
+        .recognition-card { border-left: 2px solid #e5e7eb; padding-left: 0.75rem; }
+        .quote-text { font-style: italic; font-size: 0.75rem; color: #374151; margin-bottom: 0.25rem; display: block; }
+        .quote-author { font-size: 0.65rem; font-weight: 700; color: #6b7280; text-transform: uppercase; }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .resume-paper { margin: 0; padding: 0.4in; max-width: 100%; }
+            .no-print { display: none; }
+            h2 { margin-top: 1rem; }
+        }
+
+        .contact-link:hover { text-decoration: underline; color: #1e40af; }
+    </style>
+</head>
+<body>
+
+    <div class="resume-paper">
+        <!-- Header -->
+        <header class="text-center border-b border-gray-100 pb-4 mb-4">
+            <h1>Angelica Lei C. Quebec</h1>
+            <p class="text-md font-semibold text-gray-700 mt-1 uppercase tracking-wide">
+                Solutions Architect | Enterprise Technology Strategy | Digital Transformation
+            </p>
+            <div class="flex flex-wrap justify-center gap-x-3 gap-y-1 mt-2 text-xs text-gray-500">
+                <span>Cavite, Philippines</span>
+                <span>|</span>
+                <a href="mailto:angelicaquebec@gmail.com" class="contact-link">angelicaquebec@gmail.com</a>
+                <span>|</span>
+                <span>09985892929</span>
+            </div>
+            <div class="flex justify-center gap-4 mt-1 text-xs font-semibold text-blue-800">
+                <span>LinkedIn</span>
+                <span>GitHub</span>
+            </div>
+        </header>
+
+        <!-- Professional Summary -->
+        <section class="section-content">
+            <h2>Professional Summary</h2>
+            <p class="text-xs text-gray-700 leading-normal text-justify">
+                Solutions Architect with 12+ years of experience in evaluating technology options and performing modern trade-off analysis for high-availability enterprise systems. Skilled in translating complex requirements into viable architectural alternatives and articulating recommendations to multi-level stakeholders. Proven track record in designing security best practices and compliance frameworks within heavy industry contexts, including specialized requirements for the oil and gas sector. Expert in leveraging Azure, IoT, and big data technologies to modernize legacy landscapes and drive mission-critical organizational ROI.
+            </p>
+        </section>
+
+        <!-- Core Expertise -->
+        <section class="section-content">
+            <h2>Core Expertise & Strategy</h2>
+            <div class="grid grid-cols-2 gap-4 text-xs">
+                <div>
+                    <h3 class="text-[0.65rem] font-bold text-gray-400 uppercase mb-1">Architectural Domains:</h3>
+                    <p class="text-gray-700">Technology Trade-off Analysis, Multi-stakeholder Articulation, Legacy Modernization, Data Integration & Warehousing, Security Compliance (Oil & Gas), Enterprise Architecture Frameworks (TOGAF), Big Data, Edge Computing.</p>
+                </div>
+                <div>
+                    <h3 class="text-[0.65rem] font-bold text-gray-400 uppercase mb-1">Architecture Philosophy:</h3>
+                    <ul class="list-none space-y-0.5 text-gray-700">
+                        <li>• <strong>Strategic Problem Solving:</strong> Delivering alternatives that balance cost, performance, and long-term scalability.</li>
+                        <li>• <strong>Compliance by Design:</strong> Implementing security protocols that meet rigorous industry-specific regulatory standards.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience -->
+        <section class="section-content">
+            <h2>Technical Leadership & Solutions Architecture</h2>
+
+            <!-- MediCard -->
+            <div class="mb-4">
+                <div class="job-header">
+                    <h3>Solutions Architect (Contractual) | MediCard Philippines</h3>
+                    <span class="job-date">Nov 2025 - Present</span>
+                </div>
+                <span class="job-sub">Enterprise Transformation & Cloud Governance</span>
+                <ul class="bullet-list text-gray-700">
+                    <li>Leading the NAV Replacement Project: Performing rigorous trade-off analysis for the migration from legacy NAV to SAP S/4HANA or D365, standardizing procurement and global reporting.</li>
+                    <li>Architecting the MedGo 2.0 Ecosystem: Designing a unified, high-scalability platform integrating FaceScan (Nuralogix) biometric assessments with Microsoft Azure cloud-native design.</li>
+                    <li>Directing Project Orion: Articulating complex financial transformation alternatives to stakeholders, automating billing/collection to eliminate human error for 500+ users.</li>
+                    <li>Implementing Shared EFT/SFTP and PAM Revamp (CyberArk): Establishing zero-trust network segmentation and automated malware detection to satisfy enterprise compliance requirements.</li>
+                    <li>Governing Technical Build Permits (TBP) to ensure all architectural choices align with enterprise standards and mission-critical resilience metrics (RTO/RPO).</li>
+                </ul>
+            </div>
+
+            <!-- Wilson Parking -->
+            <div class="mb-4">
+                <div class="job-header">
+                    <h3>Chief Architect (Contractual) | Wilson Parking Singapore</h3>
+                    <span class="job-date">Aug 2025 - Oct 2025</span>
+                </div>
+                <span class="job-sub">Enterprise Platform Standardization & Operations Automation</span>
+                <ul class="bullet-list text-gray-700">
+                    <li>Architected a standardized monitoring ecosystem across 347+ locations, articulating the ROI of shifting from reactive legacy operations to predictive intelligence.</li>
+                    <li>Designed an enterprise-wide AI agent orchestration framework with human-supervised resolution, reducing manual operational overhead by 85%.</li>
+                    <li>Developed architectural roadmaps for payment validation, integrating complex multi-vendor ecosystems (CHU, PMS, NETS, CEPAS) into a single verifiable data stream.</li>
+                    <li>Established centralized root cause analysis protocols for multi-system failures, significantly improving mean-time-to-resolution (MTTR).</li>
+                </ul>
+            </div>
+
+            <!-- Brokerpedia -->
+            <div class="mb-4">
+                <div class="job-header">
+                    <h3>Software Engineering Manager & AI Transformation Lead | Brokerpedia</h3>
+                    <span class="job-date">Feb 2024 - July 2025</span>
+                </div>
+                <span class="job-sub">SaaS Platform Engineering & Global Team Leadership - 16,000+ Users</span>
+                <ul class="bullet-list text-gray-700">
+                    <li>Architected a multi-tenant SaaS Enterprise Platform serving 16,000+ users, ensuring architectural consistency across diverse brokerage modules.</li>
+                    <li>Directed the Gather Intel module SDLC, transforming business intelligence workflows from hours to seconds through big data processing architectures.</li>
+                    <li>Led the redesign of the enterprise account system using advanced matching algorithms to resolve legacy data duplication and ensure seamless platform migration.</li>
+                    <li>Managed distributed international teams, establishing cloud governance standards and multi-model machine learning integration patterns.</li>
+                </ul>
+            </div>
+
+            <!-- Thinxtra -->
+            <div class="mb-4">
+                <div class="job-header">
+                    <h3>IoT Solutions Architect & Support Manager | Thinxtra</h3>
+                    <span class="job-date">Sep 2019 - Jan 2024</span>
+                </div>
+                <span class="job-sub">Regional IoT Infrastructure & Network Governance</span>
+                <ul class="bullet-list text-gray-700">
+                    <li>Accountable for 99.99% network uptime for base station infrastructure across Australia, HK, and NZ as a primary IoT Telco provider.</li>
+                    <li>Architected executive KPI dashboards, consolidating cross-departmental data into a centralized intelligence interface for strategic planning.</li>
+                    <li>Designed industrial-grade device integration architectures, managing the full application lifecycle from edge-to-cloud for government and utility clients.</li>
+                    <li>Implemented ML-driven support automation that improved regional operational efficiency by 60%.</li>
+                </ul>
+            </div>
+
+            <!-- Accenture -->
+            <div class="mb-4">
+                <div class="job-header">
+                    <h3>Senior Software Engineer - IoT Solutions | Accenture</h3>
+                    <span class="job-date">Oct 2017 - Sep 2019</span>
+                </div>
+                <span class="job-sub">Enterprise Cloud Infrastructure & Nano-services Design</span>
+                <ul class="bullet-list text-gray-700">
+                    <li>Architected production-grade Enterprise IoT Cloud Infrastructure on Azure using a zero-bug serverless architecture to support global telemetry ingestion.</li>
+                    <li>Developed the Thingworx Bridge Application, enabling remote command and control capabilities for industrial device simulators.</li>
+                    <li>Engineered GDPR-compliant data pipelines and secure device provisioning frameworks within the Microsoft Azure Ecosystem.</li>
+                    <li>Pioneered the implementation of nano-services architecture, creating event-driven blueprints that influenced company-wide cloud strategy.</li>
+                </ul>
+            </div>
+
+            <!-- CTSI -->
+            <div class="mb-4">
+                <div class="job-header">
+                    <h3>Full Stack Engineer & Solutions Architect | CTSI Logistics</h3>
+                    <span class="job-date">Jun 2013 - Jul 2017</span>
+                </div>
+                <span class="job-sub">Intelligent Supply Chain Platform</span>
+                <ul class="bullet-list text-gray-700">
+                    <li>Architected supply chain management platform from ground up using .NET MVC for comprehensive logistics operations.</li>
+                    <li>Designed intelligent logistics planning module automating complex decision-making processes through proprietary algorithms.</li>
+                    <li>Collaborated with global stakeholders to translate complex warehouse workflows into scalable enterprise software solutions.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Recognition Section -->
+        <section class="section-content">
+            <h2>Professional Recognition</h2>
+            <div class="recognition-grid">
+                <div class="recognition-card">
+                    <span class="quote-text">"Angelica possesses a unique talent for streamlining complex technical processes and architecting efficient systems."</span>
+                    <span class="quote-author">- Adrian Tchordjallian, Solutions Manager</span>
+                </div>
+                <div class="recognition-card">
+                    <span class="quote-text">"Her architectural thinking and technical leadership consistently deliver exceptional solutions that transform business operations."</span>
+                    <span class="quote-author">- Romain De Fayard, Delivery Manager</span>
+                </div>
+                <div class="recognition-card">
+                    <span class="quote-text">"Exceptional technical communication and solution capabilities that consistently exceed expectations."</span>
+                    <span class="quote-author">- Mat Graham, Managing Director</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="section-content">
+            <h2>Technical & Solutions Architecture Skills</h2>
+            <div class="grid grid-cols-2 gap-x-6 gap-y-2 text-[0.8rem]">
+                <div>
+                    <h3 class="text-gray-500 uppercase text-[0.6rem] font-black mb-1">Architecture & Data</h3>
+                    <p class="text-gray-700">Modern Trade-off Analysis, Product Evaluation, TOGAF Framework, Big Data Technologies, Data Warehousing, Machine Learning & Advanced Analytics.</p>
+                </div>
+                <div>
+                    <h3 class="text-gray-500 uppercase text-[0.6rem] font-black mb-1">Cloud & Infrastructure</h3>
+                    <p class="text-gray-700">Azure Solutions Architect Expert, Containerization (Docker, Kubernetes), Serverless & Microservices, IoT Solutions, Edge Computing.</p>
+                </div>
+                <div>
+                    <h3 class="text-gray-500 uppercase text-[0.6rem] font-black mb-1">Security & Compliance</h3>
+                    <p class="text-gray-700">Oil and Gas Industry Security Standards, HIPAA/GDPR Compliance, CyberArk PAM, Network Segmentation, Identity Governance.</p>
+                </div>
+                <div>
+                    <h3 class="text-gray-500 uppercase text-[0.6rem] font-black mb-1">Development & DevOps</h3>
+                    <p class="text-gray-700">CI/CD Pipelines, Automated Testing Frameworks, C#/.NET, Python, RESTful API Orchestration, Legacy Modernization.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education & Certifications -->
+        <section class="section-content">
+            <h2>Education & Certifications</h2>
+            <div class="text-[0.8rem] flex justify-between items-start">
+                <div>
+                    <p class="font-bold">Bachelor of Technology in Information Technology</p>
+                    <p class="text-gray-600 italic">Technological University of the Philippines - Manila (2017)</p>
+                </div>
+                <div class="text-right text-gray-700 font-medium italic">
+                    <p>• Azure Solutions Architect Expert | TOGAF (In Progress)</p>
+                    <p>• PSM I | Azure AZ-900 | HIPAA Certified | AI Leader (In Progress)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Differentiators -->
+        <section class="section-content">
+            <h2>Key Differentiators for Solutions Architecture</h2>
+            <ul class="bullet-list grid grid-cols-2 gap-x-4 text-gray-700">
+                <li>Expertise in Technology Choice & Trade-off Analysis</li>
+                <li>Articulating Alternatives to Multi-level Stakeholders</li>
+                <li>Oil & Gas Industry Compliance & Security Knowledge</li>
+                <li>Strategic Modernization of Legacy ERP/Data Landscapes</li>
+                <li>Mission-Critical Infrastructure Governance (99.99% Uptime)</li>
+                <li>Scalable Cloud Architecture (Docker, Kubernetes, Azure)</li>
+            </ul>
+        </section>
+    </div>
+
+</body>
+</html>
+
